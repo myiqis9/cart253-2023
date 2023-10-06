@@ -7,40 +7,22 @@
 
 let player = {
     x: undefined,
-    y: 250,
+    y: undefined,
     size: 50,
     vx: 0,
     vy: 0
   };
   
-  let enemy1 = {
+  let hater = {
     x: undefined,
     y: undefined,
     size: 80,
     vx: 0,
     vy: 0,
-    speed: 3
+    speed: 2
   };
 
-  let enemy2 = {
-    x: undefined,
-    y: undefined,
-    size: 80,
-    vx: 0,
-    vy: 0,
-    speed: 3
-  };
-
-  let enemy3 = {
-    x: undefined,
-    y: undefined,
-    size: 80,
-    vx: 0,
-    vy: 0,
-    speed: 3
-  };
-
-  let enemyRGB = {
+  let haterRGB = {
     R: 200,
     G: 0,
     B: 0
@@ -50,15 +32,11 @@ let player = {
     constructor(x,y) {
       this.x = x;
       this.y = y;
-      this.size = 50;
-      this.R = 200;
-      this.G = 100;
-      this.B = 100;
+      this.size = 40;
     }
   }
   
   let state = `title`; // game state
-  let haters = [enemy1, enemy2, enemy3]; //create array of enemies
   let fans = []; //create array of fans
 
   let score = 0; //determines which ending you get
@@ -73,10 +51,13 @@ let player = {
   
   function setup() {
     createCanvas(800,800);
-    player.x = width / 4;
+    player.x = width/2;
+    player.y = height/2;
+
+    hater.x = 40;
+    hater.y = 40;
 
     setupFans();
-    setupHaters();
   }
   
   function setupFans() {
@@ -98,17 +79,13 @@ let player = {
 
         //checking if a fan is in a position where another fan already exists
         if (i !== j && d < (fans[i].size/2 + fans[j].size/2)) {
-          fans[i].x = random(width);
-          fans[i].y = random(height);
+          fans[i].x = random(width-25);
+          fans[i].y = random(height-25);
+          print("nope");
           j = 0;
         }
       }
     }
-  }
-
-  function setupHaters() {
-    enemy1.x = 40;
-    enemy1.y = 40;
   }
   
   function draw() {
@@ -139,14 +116,14 @@ let player = {
 
     fill(200,100,100);
     textSize(32);
-    text(`Collect your fans while avoiding the haters.`, width/2, (height*2)/3);
+    text(`Collect your fans while avoiding the hater.`, width/2, (height*2)/3);
     text(`Arrow keys to move. Press any key to start.`, width/2, (height*2)/3+38);
     pop();
   }
   
   function simulation() {
     movePlayer();
-    moveHaters();
+    moveHater();
     checkOffscreen();
     checkFanOverlap();
     checkHaterOverlap();
@@ -157,47 +134,68 @@ let player = {
   function superstar() {
     push();
     textSize(64);
-    fill(255,150,150);
+    fill(255,51,153);
     textAlign(CENTER, CENTER);
     text(`SUPERSTAR!!!`, width/2, height/2);
+
+    fill(255,204,229);
+    textSize(32);
+    text(`You're infamous! The whole world knows about you!`, width/2, (height*2)/3);
+    text(`Press SPACE to try again?`, width/2, (height*2)/3+38);
     pop();
   }
   
   function influencer() {
     push();
     textSize(64);
-    fill(255,150,150);
+    fill(153,51,255);
     textAlign(CENTER, CENTER);
     text(`INFLUENCER!`, width/2, height/2);
+
+    fill(229,204,255);
+    textSize(32);
+    text(`You're popular! Lots of fans swoon at your feet!`, width/2, (height*2)/3);
+    text(`Press SPACE to try again?`, width/2, (height*2)/3+38);
     pop();
   }
 
   function goodstart() {
     push();
     textSize(64);
-    fill(255,150,150);
+    fill(51,153,255);
     textAlign(CENTER, CENTER);
     text(`GOOD START.`, width/2, height/2);
+    
+    fill(204,229,255);
+    textSize(32);
+    text(`You got a few fans. You feel special.`, width/2, (height*2)/3);
+    text(`Press SPACE to try again?`, width/2, (height*2)/3+38);
     pop();
   }
   
   function tryhard() {
     push();
     textSize(64);
-    fill(150,150,255);
+    fill(51,255,153);
     textAlign(CENTER, CENTER);
     text(`TRYHARD :(`, width/2, height/2);
+
+    fill(204,255,229);
+    textSize(32);
+    text(`Who even are you? That's right. A nobody.`, width/2, (height*2)/3);
+    text(`Press SPACE to try again?`, width/2, (height*2)/3+38);
     pop();
   }
 
   function checkEnding() {
-    if(score < 10) {
+    print("ending");
+    if(score < 25) {
       state = `tryhard`;
     }
-    else if(score >= 10 && score < 40) {
+    else if(score >= 25 && score < 100) {
       state = `goodstart`;
     }
-    else if(score >= 40 && score < 1000) {
+    else if(score >= 100 && score < 1000) {
       state = `influencer`;
     }
     else if(score >= 1000) {
@@ -206,12 +204,31 @@ let player = {
   }
   
   function movePlayer() {
-    player.x = player.x + player.vx;
-    player.y = player.y + player.vy;
+    player.x += player.vx;
+    player.y += player.vy;
   }
 
-  function moveHaters() {
+  function moveHater() {
+    //hater gradually follows player
+    let dx = hater.x - player.x;
+    let dy = hater.y - player.y;
 
+    if(dx < 0) {
+      hater.vx = hater.speed;
+    }
+    else {
+      hater.vx = -hater.speed;
+    }
+
+    if(dy < 0) {
+      hater.vy = hater.speed;
+    }
+    else {
+      hater.vy = -hater.speed;
+    }
+
+    hater.x += hater.vx;
+    hater.y += hater.vy;
   }
   
   function checkOffscreen() {
@@ -248,6 +265,7 @@ let player = {
           if (i !== j && d < (fans[i].size/2 + fans[j].size/2)) {
             fans[i].x = random(width);
             fans[i].y = random(height);
+            print("nope");
             j = 0;
           }
         }
@@ -256,11 +274,33 @@ let player = {
   }
 
   function checkHaterOverlap() {
-
+    let d = dist(player.x, player.y, hater.x, hater.y);
+    if(d < player.size/2 + hater.size/2) {
+        checkEnding();
+    }
   }
 
   function checkMultiplier() {
-
+    if(score >= 1000) {
+      multiplier = floor(random(47,65));
+      hater.size = 160;
+      hater.speed = 3;
+    }
+    else if(score >= 100) {
+      multiplier = floor(random(12,21));
+      hater.size = 140;
+      hater.speed = 2.5;
+    }
+    else if(score >= 25) {
+      multiplier = floor(random(2,4));
+      hater.size = 110;
+      hater.speed = 2.2;
+    }
+    else {
+      multiplier = 1;
+      hater.size = 80;
+      hater.speed = 2;
+    }
   }
   
   function display() {
@@ -275,14 +315,19 @@ let player = {
       image(fanImg, fans[i].x, fans[i].y);
     }
 
-    //Display haters
-    fill(enemyRGB.R, enemyRGB.G, enemyRGB.B);
-
-    for(let i = 0; i < haters.length; i++) {
-      ellipse(haters[i].x, haters[i].y, haters[i].size);
-    }
+    //Display hater
+    push();
+    fill(haterRGB.R, haterRGB.G, haterRGB.B);
+    ellipse(hater.x, hater.y, hater.size);
+    pop();
 
     //Display score
+    push();
+    textSize(32);
+    fill(230);
+    textAlign(LEFT, CENTER);
+    text(`FANS: ${score}`, 10, 30);
+    pop();
   }
 
   function keyPressed() {
@@ -310,6 +355,12 @@ let player = {
         player.vy = 5;
       }
 
+    }
+
+    if(state === `goodstart` || state === `tryhard` || state === `influencer` || state === `superstar`) {
+      if(keyCode === 32) {
+        location.reload();
+      }
     }
   }
 
