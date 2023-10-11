@@ -84,6 +84,7 @@
     y: undefined,
     size: 50,
     cooldown: false,
+    mouseHover: false,
     isDragged: false,
     cdTime: 20
   }
@@ -93,6 +94,7 @@
     y: undefined,
     size: 50,
     cooldown: false,
+    mouseHover: false,
     isDragged: false,
     cdTime: 20
   }
@@ -102,6 +104,7 @@
     y: undefined,
     size: 50,
     cooldown: false,
+    mouseHover: false,
     isDragged: false,
     cdTime: 40
   }
@@ -116,12 +119,16 @@
   let foxSpeed = 1.5;
 
   let foxID = 0; //assign a number to foxes for identification
-  let spawnCounter = 40; //cooldown until another fox is spawned
+  let spawnCounter = 50; //cooldown until another fox is spawned
   let activeFoxes = 0; //number of foxes on screen
   let maxFoxes = 4; // max number of foxes that can spawn
 
   let score = 0; //total score
   let lives = 10; //foxes being sad makes it decrease, too many sad foxes and you lose!
+
+  let difficulty1 = 25; //different difficulty scale
+  let difficulty2 = 50;
+  let difficulty3 = 100;
 
   //images for everything
   let foxPeekL;
@@ -137,11 +144,10 @@
   let foxBurrowL;
   let foxBurrowR;
   let burrowImg;
-  let food1Img;
-  let food2Img;
+  let foodImg;
   let feastImg;
-  let heart;
-  let sad;
+  let happyImg;
+  let sadImg;
 
   function preload() {
     //load images
@@ -158,16 +164,21 @@
     foxPetR = loadImage("assets/images/fpetR.png");
     foxBurrowL = loadImage("assets/images/fburrowL.png");
     foxBurrowR = loadImage("assets/images/fburrowR.png");
+    foodImg = loadImage("assets/images/food.png");
+    feastImg = loadImage("assets/images/feast.png");
   }
   
   function setup() {
     createCanvas(975,800);
 
     setupBurrows();
+    resetFood1();
+    resetFood2();
+    resetFeast();
   }
   
   function setupBurrows() {
-    //spawn burrows at the start of the game
+    //spawn burrows on each lane at the start of the game
     let burrow1 = new Burrow(random(50, width-50), (height/2)-350);
     let burrow2 = new Burrow(random(50, width-50), (height/2)-250);
     let burrow3 = new Burrow(random(50, width-50), (height/2)-150);
@@ -177,6 +188,21 @@
     let burrow7 = new Burrow(random(50, width-50), (height/2)+250);
 
     burrows.push(burrow1, burrow2, burrow3, burrow4, burrow5, burrow6, burrow7);
+  }
+
+  function resetFood1() {
+    food1.x = width/2-100;
+    food1.y = height-70;
+  }
+
+  function resetFood2() {
+    food2.x = width/2;
+    food2.y = height-70;
+  }
+
+  function resetFeast() {
+    feast.x = width/2+100;
+    feast.y = height-70;
   }
   
   function draw() {
@@ -220,12 +246,24 @@
 
   function checkSpawnTime() {
     if(spawnCounter === 0) {
+      //if there isn't the max amount of foxes on screen, spawn a new one
       if(activeFoxes !== maxFoxes) {
         spawnFox();
       }
 
       //the more the game goes on the faster they spawn
-      spawnCounter = 40;
+      if(score >= difficulty3) {
+        spawnCounter = 20;
+      }
+      else if(score >= difficulty2) {
+        spawnCounter = 30;
+      }
+      else if(score >= difficulty1) {
+        spawnCounter = 40;
+      }
+      else {
+        spawnCounter = 50;
+      }
     }
     else {
       spawnCounter--;
@@ -235,7 +273,7 @@
   function spawnFox() {
     let spawn = floor(random(burrows.length));
 
-    //check if the burrow is on an edge of the map, so the fox doesn't immediately go oob
+    //check if burrow is on an edge of the map, so the fox doesn't immediately go in a direction that goes oob
     let direction;
     if(burrows[spawn].x >= width-200) {
       direction = true;
@@ -247,6 +285,7 @@
       direction = floor((random(0,1))+0.5);
     }
 
+    //spawn a new fox
     let newFox = new Fox(foxID, burrows[spawn].x, burrows[spawn].y, direction, foxSpeed);
     foxes.push(newFox);
     activeFoxes++;
@@ -283,7 +322,23 @@
   }
 
   function checkDifficulty() {
-
+    //the higher your score is, the more foxes spawn and the faster they go
+    if(score >= difficulty3) {
+      foxSpeed = 2.2;
+      maxFoxes = 6;
+    }
+    else if(score >= difficulty2) {
+      foxSpeed = 1.8;
+      maxFoxes = 6;
+    }
+    else if(score >= difficulty1) {
+      foxSpeed = 1.5;
+      maxFoxes = 5;
+    }
+    else {
+      foxSpeed = 1.2;
+      maxFoxes = 4;
+    }
   }
 
   function checkLives() {
@@ -297,7 +352,6 @@
 
   
   function display() {
-    //display everything in simulation
     imageMode(CENTER);
     rectMode(CENTER);
 
@@ -305,6 +359,21 @@
     for(let i = 0; i < burrows.length; i++) {
       image(burrowImg, burrows[i].x, burrows[i].y);
     }
+
+    //display food menu
+    push();
+    fill(0);
+    rect(width/2, height-70, 70);
+    rect((width/2)-100, height-70, 70);
+    rect((width/2)+100, height-70, 70);
+    pop();
+
+    //display food
+    image(foodImg, food1.x, food1.y);
+    image(foodImg, food2.x, food2.y);
+    image(feastImg, feast.x, feast.y);
+
+    //TD display reactions
 
     //display foxes
     for(let i = 0; i < foxes.length; i++) {
