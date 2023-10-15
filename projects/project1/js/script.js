@@ -32,7 +32,7 @@
         this.actionTimer--;
       }
       else {
-        this.actionTimer = 40;
+        this.actionTimer = 60;
         this.state = `walk`;
       }
     }
@@ -57,19 +57,45 @@
     }
   
     eating() {
-  
+      if(this.actionTimer !== 0) {
+        this.actionTimer--;
+      }
+      else {
+        this.actionTimer = 120;
+        this.state = `wait`;
+      }
     }
   
     waiting() {
-  
+      if(this.actionTimer !== 0) {
+        this.actionTimer--;
+      }
+      else {
+        //if fox it not pet on time, it burrows away
+        this.actionTimer = 50;
+        this.state = `burrow`;
+      }  
     }
   
     petting() {
-  
+      if(this.actionTimer !== 0) {
+        this.actionTimer--;
+      }
+      else {
+        this.actionTimer = 50;
+        this.state = `burrow`;
+      }  
     }
   
     burrowing() {
-  
+      if(this.actionTimer !== 0) {
+        foxIsBurrowing(this);
+        this.actionTimer--;
+      }
+      else {
+        //fox leaves in burrow
+        deleteFox(this.id);
+      }  
     }
   }
 
@@ -80,6 +106,7 @@
   };
 
   let food1 = {
+    name: `food1`,
     x: undefined,
     y: undefined,
     size: 50,
@@ -90,6 +117,7 @@
   }
 
   let food2 = {
+    name: `food2`,
     x: undefined,
     y: undefined,
     size: 50,
@@ -100,6 +128,7 @@
   }
 
   let feast = {
+    name: `feast`,
     x: undefined,
     y: undefined,
     size: 50,
@@ -116,6 +145,7 @@
 
   let foxes = []; //create array of foxes
   let burrows = []; //create array of burrows
+  let foods = [food1, food2, feast]; //create array of foods
   let foxSpeed = 1.5;
 
   let foxID = 0; //assign a number to foxes for identification
@@ -126,8 +156,8 @@
   let score = 0; //total score
   let lives = 10; //foxes being sad makes it decrease, too many sad foxes and you lose!
 
-  let difficulty1 = 25; //different difficulty scale
-  let difficulty2 = 50;
+  let difficulty1 = 35; //different difficulty scale
+  let difficulty2 = 60;
   let difficulty3 = 100;
 
   //images for everything
@@ -172,9 +202,9 @@
     createCanvas(975,800);
 
     setupBurrows();
-    resetFood1();
-    resetFood2();
-    resetFeast();
+    resetFood(food1);
+    resetFood(food2);
+    resetFood(feast);
   }
   
   function setupBurrows() {
@@ -190,19 +220,43 @@
     burrows.push(burrow1, burrow2, burrow3, burrow4, burrow5, burrow6, burrow7);
   }
 
-  function resetFood1() {
-    food1.x = width/2-100;
-    food1.y = height-70;
+  function foxIsBurrowing(fox) {
+    let inBurrow = false;
+
+    for(let burrow of burrows) {
+      let d = dist(fox.x, fox.y, burrow.x, burrow.y);
+
+      //check if fox is already next to a burrow
+      if(d < fox.size / 2) {
+        fox.x = burrow.x;
+        fox.y = burrow.y;
+        inBurrow = true;
+      }
+    }
+
+    //if no burrows are nearby, create a new one at fox position
+    if(inBurrow === false) {
+      let newBurrow = new Burrow(fox.x, fox.y);
+      burrows.push(newBurrow);
+    }
   }
 
-  function resetFood2() {
-    food2.x = width/2;
-    food2.y = height-70;
-  }
-
-  function resetFeast() {
-    feast.x = width/2+100;
-    feast.y = height-70;
+  function resetFood(food) {
+    switch(food.name) {
+      case `food1`:
+        food1.x = width/2-100;
+        food1.y = height-70;
+        break;
+      case `food2`:
+        food2.x = width/2;
+        food2.y = height-70;
+        break;
+      case `feast`:
+        feast.x = width/2+100;
+        feast.y = height-70;
+        break;
+    }
+    food.isDragged = false;
   }
   
   function draw() {
@@ -241,6 +295,11 @@
     checkFoxBehavior();
     checkDifficulty();
     checkLives();
+    checkDistanceFoxFood();
+    checkFoodMovement();
+    for(let food of foods) {
+      checkDragging(food);
+    }
     display();
   }
 
@@ -303,19 +362,19 @@
   }
 
   function checkFoxBehavior() {
-    for(let i = 0; i < foxes.length; i++) {
-      switch(foxes[i].state) {
-        case `peek`: foxes[i].peeking();
+    for(let fox of foxes) {
+      switch(fox.state) {
+        case `peek`: fox.peeking();
           break;
-        case `walk`: foxes[i].walking();
+        case `walk`: fox.walking();
           break;
-        case `eat`: foxes[i].eating();
+        case `eat`: fox.eating();
           break;
-        case `wait`: foxes[i].waiting();
+        case `wait`: fox.waiting();
           break;
-        case `pet`: foxes[i].petting();
+        case `pet`: fox.petting();
           break;
-        case `burrow`: foxes[i].burrowing();
+        case `burrow`: fox.burrowing();
           break;
       }
     }
@@ -350,6 +409,73 @@
     }
   }
 
+  function checkFoodMovement() {
+    for(let food of foods) {
+      if(mouseIsInside(food)) {
+        food.mouseHover = true;
+        print(`hovering ${food.name}`);
+      }
+      else food.mouseHover = false;
+    }
+  }
+
+  function mouseIsInside(food) {
+  let d = dist(mouseX, mouseY, food.x, food.y);
+  if (d < food.size / 2) return true;
+  else return false;
+  }
+
+  function checkMousePressed(food) {
+    if(!food.cooldown && food.mouseHover) {
+      food.isDragged = true;
+      checkDragging(food);
+    }
+  }
+
+  function checkDragging(food) {
+    if(food.isDragged) {
+      food.x = mouseX;
+      food.y = mouseY;
+  
+      food.x = constrain(food.x, 0, width);
+      food.y = constrain(food.y, 0, height);
+    }
+  }
+
+  function checkMouseReleased(food) {
+    if(food.isDragged) {
+      resetFood(food);
+    }
+  }
+
+  function checkDistanceFoxFood() {
+    for(let food of foods) {
+      for(let fox of foxes) {
+        let d = dist(fox.x, fox.y, food.x, food.y);
+
+        if (d < fox.size / 2 && fox.state === `walk`) {
+          fox.state = `eat`;
+          resetFood(food);
+
+          //increase score more if feast
+          if(food.name === `feast`) score += 3;
+          else score++;
+
+          print(`fox ${fox.id} eating ${food.name}`);
+        }
+      }
+    }
+  }
+
+  function checkFoxBeingPet(fox) {
+    let d = dist(mouseX, mouseY, fox.x, fox.y);
+
+    if(d < fox.size / 2 && fox.state === `wait`) {
+      fox.state = `pet`;
+      score++;
+    }
+  }
+
   
   function display() {
     imageMode(CENTER);
@@ -376,54 +502,54 @@
     //TD display reactions
 
     //display foxes
-    for(let i = 0; i < foxes.length; i++) {
-      switch(foxes[i].state) {
+    for(let fox of foxes) {
+      switch(fox.state) {
         case `peek`:
-          if(foxes[i].goLeft) {
-            image(foxPeekL, foxes[i].x, foxes[i].y);
+          if(fox.goLeft) {
+            image(foxPeekL, fox.x, fox.y);
           }
           else {
-            image(foxPeekR, foxes[i].x, foxes[i].y);
+            image(foxPeekR, fox.x, fox.y);
           }
           break;
         case `walk`: 
-          if(foxes[i].goLeft) {
-            image(foxWalkL, foxes[i].x, foxes[i].y);
+          if(fox.goLeft) {
+            image(foxWalkL, fox.x, fox.y);
           }
           else {
-            image(foxWalkR, foxes[i].x, foxes[i].y);
+            image(foxWalkR, fox.x, fox.y);
           }
           break;
         case `eat`: 
-          if(foxes[i].goLeft) {
-            image(foxEatL, foxes[i].x, foxes[i].y);
+          if(fox.goLeft) {
+            image(foxEatL, fox.x, fox.y);
           }
           else {
-            image(foxEatR, foxes[i].x, foxes[i].y);
+            image(foxEatR, fox.x, fox.y);
           }
           break;
         case `wait`: 
-          if(foxes[i].goLeft) {
-            image(foxWaitL, foxes[i].x, foxes[i].y);
+          if(fox.goLeft) {
+            image(foxWaitL, fox.x, fox.y);
           }
           else {
-            image(foxWaitR, foxes[i].x, foxes[i].y);
+            image(foxWaitR, fox.x, fox.y);
           }
           break;
         case `pet`: 
-          if(foxes[i].goLeft) {
-            image(foxPetL, foxes[i].x, foxes[i].y);
+          if(fox.goLeft) {
+            image(foxPetL, fox.x, fox.y);
           }
           else {
-            image(foxPetR, foxes[i].x, foxes[i].y);
+            image(foxPetR, fox.x, fox.y);
           }
           break;
         case `burrow`: 
-          if(foxes[i].goLeft) {
-            image(foxBurrowL, foxes[i].x, foxes[i].y);
+          if(fox.goLeft) {
+            image(foxBurrowL, fox.x, fox.y);
           }
           else {
-            image(foxBurrowR, foxes[i].x, foxes[i].y);
+            image(foxBurrowR, fox.x, fox.y);
           }
           break;
       }
@@ -436,6 +562,11 @@
     fill(255,150,150);
     textAlign(CENTER,CENTER);
     text(`GAME OVER!`,width/2,height/2);
+
+    fill(200);
+    textSize(32);
+    text(`Final score: ${score}`, width/2, (height*2)/3);
+    text(`Press ENTER to try again!`, width/2, (height*2)/3+38);
     pop();
   }
 
@@ -453,5 +584,18 @@
     }
   }
 
+  function mousePressed() {
+    for(let food of foods) {
+      checkMousePressed(food);
+    }
 
+    for(let fox of foxes) {
+      checkFoxBeingPet(fox);
+    }
+  }
 
+  function mouseReleased() {
+    for(let food of foods) {
+      checkMouseReleased(food);
+    }
+  }
