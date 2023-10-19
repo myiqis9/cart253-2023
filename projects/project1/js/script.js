@@ -43,6 +43,7 @@
         if(this.x <= 25) {
           //fox out of bounds, lose health
           lives--;
+          spawnReaction(this.x, this.y, `sad`);
           deleteFox(this.id);
         }
       }
@@ -51,6 +52,7 @@
         if(this.x >= (width-25)) {
           //fox out of bounds, lose health
           lives--;
+          spawnReaction(this.x, this.y, `sad`);
           deleteFox(this.id);
         }
       }
@@ -99,6 +101,28 @@
     }
   }
 
+  class Reaction {
+    constructor(id, x, y, emote) {
+      this.id = id;
+      this.x = x;
+      this.y = y;
+      this.emote = emote;
+      this.count = 50;
+    }
+
+    moving() {
+      //TD reaction moves slowly upwards
+      if(this.count !== 0) {
+        if(this.count % 2 === 0) this.y--; //reaction only moves every 2 frames
+        this.count--;
+      }
+      else {
+        //deletes reaction after set amount of time
+        deleteReaction(this.id);
+      }
+    }
+  }
+
   let bgColor = {
     R: 0,
     G: 0,
@@ -109,46 +133,47 @@
     name: `food1`,
     x: undefined,
     y: undefined,
-    size: 50,
+    size: 55,
     cooldown: false,
     mouseHover: false,
     isDragged: false,
-    cdTime: 20
+    cdTime: 0
   }
 
   let food2 = {
     name: `food2`,
     x: undefined,
     y: undefined,
-    size: 50,
+    size: 55,
     cooldown: false,
     mouseHover: false,
     isDragged: false,
-    cdTime: 20
+    cdTime: 0
   }
 
   let feast = {
     name: `feast`,
     x: undefined,
     y: undefined,
-    size: 50,
+    size: 55,
     cooldown: false,
     mouseHover: false,
     isDragged: false,
-    cdTime: 40
+    cdTime: 0
   }
   
   //tutorials & game manager
   let game = `title`; //game manager
-  let tutorial1 = true; //is tutorial showing?
-  let tutorial2 = true;
+  let tutorial = true; //is tutorial showing?
 
   let foxes = []; //create array of foxes
   let burrows = []; //create array of burrows
+  let reactions = []; //create array of reactions
   let foods = [food1, food2, feast]; //create array of foods
   let foxSpeed = 1.5;
 
   let foxID = 0; //assign a number to foxes for identification
+  let reactID = 0; //assign number to reactions too
   let spawnCounter = 50; //cooldown until another fox is spawned
   let activeFoxes = 0; //number of foxes on screen
   let maxFoxes = 4; // max number of foxes that can spawn
@@ -176,6 +201,7 @@
   let burrowImg;
   let foodImg;
   let feastImg;
+  let foodcdImg;
   let happyImg;
   let sadImg;
 
@@ -196,6 +222,7 @@
     foxBurrowR = loadImage("assets/images/fburrowR.png");
     foodImg = loadImage("assets/images/food.png");
     feastImg = loadImage("assets/images/feast.png");
+    foodcdImg = loadImage("assets/images/foodcd.png");
     happyImg = loadImage("assets/images/happy.png");
     sadImg = loadImage("assets/images/sad.png");
   }
@@ -247,17 +274,18 @@
     switch(food.name) {
       case `food1`:
         food1.x = width/2-100;
-        food1.y = height-70;
+        food1.y = height-60;
         break;
       case `food2`:
         food2.x = width/2;
-        food2.y = height-70;
+        food2.y = height-60;
         break;
       case `feast`:
         feast.x = width/2+100;
-        feast.y = height-70;
+        feast.y = height-60;
         break;
     }
+    if(!tutorial) foodOnCooldown(food);
     food.isDragged = false;
   }
   
@@ -293,14 +321,16 @@
   
   function simulation() {
     //simulation functions go here
-    checkSpawnTime();
-    checkFoxBehavior();
-    checkDifficulty();
-    checkLives();
-    checkDistanceFoxFood();
-    checkFoodMovement();
-    for(let food of foods) {
-      checkDragging(food);
+    if(!tutorial) {
+      checkSpawnTime();
+      checkFoxBehavior();
+      checkDifficulty();
+      checkLives();
+      checkDistanceFoxFood();
+      checkFoodMovement();
+      checkFoodCooldowns();
+      for(let food of foods) checkDragging(food);
+      for(let react of reactions) react.moving();
     }
     display();
   }
@@ -360,6 +390,18 @@
         print(`deleted ${del}`);
         activeFoxes--;
       }
+    }
+  }
+
+  function spawnReaction(x, y, emote) {
+    let newReact = new Reaction(reactID, x, y, emote);
+    reactions.push(newReact);
+    reactID++;
+  }
+
+  function deleteReaction(del) {
+    for(let i = 0; i < reactions.length; i++) {
+      if(reactions[i].id === del) reactions.splice(i, 1);
     }
   }
 
@@ -457,6 +499,7 @@
 
         if (d < fox.size / 2 && fox.state === `walk`) {
           fox.state = `eat`;
+          spawnReaction(fox.x, fox.y, `happy`);
           resetFood(food);
 
           //increase score more if feast
@@ -474,14 +517,43 @@
 
     if(d < fox.size / 2 && fox.state === `wait`) {
       fox.state = `pet`;
+      spawnReaction(fox.x, fox.y, `happy`);
       score++;
     }
   }
 
+  function foodOnCooldown(food) {
+    food.cooldown = true;
+    switch(food.name) {
+      case `food1`: food.cdTime = 20;
+        break;
+      case `food2`: food.cdTime = 20;
+        break;
+      case `feast`: food.cdTime = 50;
+        break;
+    }
+  }
+
+  function checkFoodCooldowns() {
+    for(let food of foods) {
+      if(food.cooldown) {
+        food.cdTime--;
+        if(food.cdTime === 0) {
+          food.cooldown = false;
+        }
+      }
+
+    }
+  }
   
   function display() {
     imageMode(CENTER);
     rectMode(CENTER);
+
+    //display tutorial
+    if(tutorial) {
+      //TD tutorial
+    }
 
     //display burrows
     for(let i = 0; i < burrows.length; i++) {
@@ -491,17 +563,27 @@
     //display food menu
     push();
     fill(0);
-    rect(width/2, height-70, 70);
-    rect((width/2)-100, height-70, 70);
-    rect((width/2)+100, height-70, 70);
+    rect(width/2, height-60, 70);
+    rect((width/2)-100, height-60, 70);
+    rect((width/2)+100, height-60, 70);
     pop();
 
     //display food
-    image(foodImg, food1.x, food1.y);
-    image(foodImg, food2.x, food2.y);
-    image(feastImg, feast.x, feast.y);
-
-    //TD display reactions
+    for(let food of foods) {
+      if(food.cooldown) {
+        image(foodcdImg, food.x, food.y);
+      }
+      else {
+        switch(food.name) {
+          case `food1`: image(foodImg, food1.x, food1.y);
+            break;
+          case `food2`: image(foodImg, food2.x, food2.y);
+            break;
+          case `feast`: image(feastImg, feast.x, feast.y);
+            break;
+        }
+      }
+    }
 
     //display foxes
     for(let fox of foxes) {
@@ -556,6 +638,12 @@
           break;
       }
     }
+
+    //display reactions
+    for(let react of reactions) {
+      if(react.emote === `happy`) image(happyImg, react.x, react.y);
+      else if(react.emote === `sad`) image(sadImg, react.x, react.y);
+    }
   }
 
   function gameOver() {
@@ -587,6 +675,9 @@
   }
 
   function mousePressed() {
+
+    if(game === `simulation` && tutorial) tutorial = false;
+
     for(let food of foods) {
       checkMousePressed(food);
     }
