@@ -111,7 +111,7 @@
     }
 
     moving() {
-      //TD reaction moves slowly upwards
+      //reaction moves slowly upwards
       if(this.count !== 0) {
         if(this.count % 2 === 0) this.y--; //reaction only moves every 2 frames
         this.count--;
@@ -204,6 +204,12 @@
   let foodcdImg;
   let happyImg;
   let sadImg;
+  let heartImg;
+  let tutorialImg;
+
+  //fonts
+  let lm;
+  let lmBold;
 
   function preload() {
     //load images
@@ -225,6 +231,12 @@
     foodcdImg = loadImage("assets/images/foodcd.png");
     happyImg = loadImage("assets/images/happy.png");
     sadImg = loadImage("assets/images/sad.png");
+    heartImg = loadImage("assets/images/heart.png");
+    tutorialImg = loadImage("assets/images/tutorial.png");
+
+    //load fonts
+    lm = loadFont("assets/fonts/LEMONMILK-Light.otf");
+    lmBold = loadFont("assets/fonts/LEMONMILK-Medium.otf");
   }
   
   function setup() {
@@ -308,12 +320,14 @@
   function title() {
     push();
     textSize(64);
+    textFont(lmBold)
     fill(255);
     textAlign(CENTER,CENTER);
     text(`FOX COLLECTOR!!`,width/2,height/2);
 
     fill(200);
     textSize(32);
+    textFont(lm);
     text(`Feed the foxes and raise a happy fox family!`, width/2, (height*2)/3);
     text(`Press ENTER to start.`, width/2, (height*2)/3+38);
     pop();
@@ -518,18 +532,18 @@
     if(d < fox.size / 2 && fox.state === `wait`) {
       fox.state = `pet`;
       spawnReaction(fox.x, fox.y, `happy`);
-      score++;
+      score += 3;
     }
   }
 
   function foodOnCooldown(food) {
     food.cooldown = true;
     switch(food.name) {
-      case `food1`: food.cdTime = 20;
+      case `food1`: food.cdTime = 50;
         break;
-      case `food2`: food.cdTime = 20;
+      case `food2`: food.cdTime = 50;
         break;
-      case `feast`: food.cdTime = 50;
+      case `feast`: food.cdTime = 80;
         break;
     }
   }
@@ -550,39 +564,31 @@
     imageMode(CENTER);
     rectMode(CENTER);
 
-    //display tutorial
-    if(tutorial) {
-      //TD tutorial
-    }
+    //display score
+    push();
+    textSize(42);
+    textFont(lmBold);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text(`score: ${score}`, (width/2)+275, height-65);
+    pop();
+
+    //display lifebar
+    image(heartImg, 45, height-60);
+
+    push();
+    rectMode(CORNER);
+    fill(0);
+    rect(80, height-80, 240, 45);
+
+    let healthW = (lives * 24)-2;
+    fill(248, 49, 47);
+    rect(81, height-78, healthW, 43);
+    pop();
 
     //display burrows
     for(let i = 0; i < burrows.length; i++) {
       image(burrowImg, burrows[i].x, burrows[i].y);
-    }
-
-    //display food menu
-    push();
-    fill(0);
-    rect(width/2, height-60, 70);
-    rect((width/2)-100, height-60, 70);
-    rect((width/2)+100, height-60, 70);
-    pop();
-
-    //display food
-    for(let food of foods) {
-      if(food.cooldown) {
-        image(foodcdImg, food.x, food.y);
-      }
-      else {
-        switch(food.name) {
-          case `food1`: image(foodImg, food1.x, food1.y);
-            break;
-          case `food2`: image(foodImg, food2.x, food2.y);
-            break;
-          case `feast`: image(feastImg, feast.x, feast.y);
-            break;
-        }
-      }
     }
 
     //display foxes
@@ -639,6 +645,37 @@
       }
     }
 
+    
+  //display tutorial
+  if(tutorial) {
+    image(tutorialImg, width/2, height/2);
+  }
+
+    //display food menu
+    push();
+    fill(0);
+    rect(width/2, height-60, 70, 70, 25);
+    rect((width/2)-100, height-60, 70, 70, 25);
+    rect((width/2)+100, height-60, 70, 70, 25);
+    pop();
+    
+    //display food
+    for(let food of foods) {
+      if(food.cooldown) {
+        image(foodcdImg, food.x, food.y);
+      }
+      else {
+        switch(food.name) {
+          case `food1`: image(foodImg, food1.x, food1.y);
+            break;
+          case `food2`: image(foodImg, food2.x, food2.y);
+            break;
+          case `feast`: image(feastImg, feast.x, feast.y);
+            break;
+        }
+      }
+    }
+
     //display reactions
     for(let react of reactions) {
       if(react.emote === `happy`) image(happyImg, react.x, react.y);
@@ -649,12 +686,14 @@
   function gameOver() {
     push();
     textSize(64);
-    fill(255,150,150);
+    textFont(lmBold);
+    fill(254,75,74);
     textAlign(CENTER,CENTER);
     text(`GAME OVER!`,width/2,height/2);
 
-    fill(200);
+    fill(240, 170, 170);
     textSize(32);
+    textFont(lm);
     text(`Final score: ${score}`, width/2, (height*2)/3);
     text(`Press ENTER to try again!`, width/2, (height*2)/3+38);
     pop();
