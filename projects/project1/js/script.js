@@ -196,6 +196,8 @@
     foxBurrowR = loadImage("assets/images/fburrowR.png");
     foodImg = loadImage("assets/images/food.png");
     feastImg = loadImage("assets/images/feast.png");
+    happyImg = loadImage("assets/images/happy.png");
+    sadImg = loadImage("assets/images/sad.png");
   }
   
   function setup() {
