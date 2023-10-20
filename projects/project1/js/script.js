@@ -22,7 +22,7 @@
       this.state = `peek`; //peek, walk, eat, wait, pet, burrow
       this.goLeft = goLeft; //direction fox is going
       this.speed = speed; //speed of the fox
-      this.actionTimer = 40;
+      this.actionTimer = 60;
       this.waitTimer = 40;
       this.size = 100;
     }
@@ -32,7 +32,7 @@
         this.actionTimer--;
       }
       else {
-        this.actionTimer = 60;
+        this.actionTimer = 50;
         this.state = `walk`;
       }
     }
@@ -63,7 +63,7 @@
         this.actionTimer--;
       }
       else {
-        this.actionTimer = 120;
+        this.actionTimer = 140;
         this.state = `wait`;
       }
     }
@@ -180,6 +180,7 @@
 
   let score = 0; //total score
   let lives = 10; //foxes being sad makes it decrease, too many sad foxes and you lose!
+  let petBonus = 2; //bonus points from petting foxes
 
   let difficulty1 = 35; //different difficulty scale
   let difficulty2 = 60;
@@ -441,20 +442,23 @@
   function checkDifficulty() {
     //the higher your score is, the more foxes spawn and the faster they go
     if(score >= difficulty3) {
-      foxSpeed = 2.2;
+      foxSpeed = 2.1;
       maxFoxes = 6;
+      petBonus = 6;
     }
     else if(score >= difficulty2) {
       foxSpeed = 1.8;
-      maxFoxes = 6;
+      petBonus = 4;
     }
     else if(score >= difficulty1) {
       foxSpeed = 1.5;
       maxFoxes = 5;
+      petBonus = 3;
     }
     else {
       foxSpeed = 1.2;
       maxFoxes = 4;
+      petBonus = 2;
     }
   }
 
@@ -469,10 +473,7 @@
 
   function checkFoodMovement() {
     for(let food of foods) {
-      if(mouseIsInside(food)) {
-        food.mouseHover = true;
-        print(`hovering ${food.name}`);
-      }
+      if(mouseIsInside(food)) food.mouseHover = true;
       else food.mouseHover = false;
     }
   }
@@ -501,9 +502,7 @@
   }
 
   function checkMouseReleased(food) {
-    if(food.isDragged) {
-      resetFood(food);
-    }
+    if(food.isDragged) resetFood(food);
   }
 
   function checkDistanceFoxFood() {
@@ -532,7 +531,7 @@
     if(d < fox.size / 2 && fox.state === `wait`) {
       fox.state = `pet`;
       spawnReaction(fox.x, fox.y, `happy`);
-      score += 3;
+      score += petBonus;
     }
   }
 
@@ -556,7 +555,6 @@
           food.cooldown = false;
         }
       }
-
     }
   }
   
@@ -717,17 +715,11 @@
 
     if(game === `simulation` && tutorial) tutorial = false;
 
-    for(let food of foods) {
-      checkMousePressed(food);
-    }
+    for(let food of foods) checkMousePressed(food);
 
-    for(let fox of foxes) {
-      checkFoxBeingPet(fox);
-    }
+    for(let fox of foxes) checkFoxBeingPet(fox);
   }
 
   function mouseReleased() {
-    for(let food of foods) {
-      checkMouseReleased(food);
-    }
+    for(let food of foods) checkMouseReleased(food);
   }
