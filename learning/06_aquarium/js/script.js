@@ -2,13 +2,18 @@
 
 // fish array
 let school = [];
+let fishImg;
 
+
+function preload() {
+    fishImg = loadImage(`assets/images/fish.gif`);
+}
 
 function setup() {
   createCanvas(600, 600);
 
   // Create four fish, positioned randomly
-  for(let i = 0; i < 4; i++) {
+  for(let i = 0; i < 10; i++) {
     school[i] = createFish(random(0, width), random(0, height));
   }
 }
@@ -53,16 +58,12 @@ function moveFish(fish) {
   fish.y = fish.y + fish.vy;
 
   // Constrain the fish to the canvas
-  fish.x = constrain(fish.x, 0, width);
-  fish.y = constrain(fish.y, 0, height);
+  fish.x = constrain(fish.x, 50, width-50);
+  fish.y = constrain(fish.y, 50, height-50);
 }
 
 // displayFish(fish)
 // Displays the provided fish on the canvas
 function displayFish(fish) {
-  push();
-  fill(200, 100, 100);
-  noStroke();
-  ellipse(fish.x, fish.y, fish.size);
-  pop();
+    image(fishImg, fish.x, fish.y);
 }
