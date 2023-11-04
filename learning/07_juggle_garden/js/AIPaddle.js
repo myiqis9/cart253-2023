@@ -1,13 +1,14 @@
-class Paddle {
+class AIPaddle {
     constructor(w, h) {
         this.width = w;
         this.height = h;
         this.x = 0;
-        this.y = (height - this.height/2);
+        this.y = this.height/2;
     }
 
     move() {
-        this.x = mouseX; //user controlled paddle follows mouse
+        //AI paddle follows active ball
+        this.x = mouseX;
     }
 
     display() {
