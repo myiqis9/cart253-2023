@@ -9,8 +9,9 @@ let heldItem = null; //item being dragged
 
 let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-8(?) are zoom-ins on interactables
 let inventory = []; //player inventory
+let inventorySize = 5;
 let slotID = 0; //id for slots
-let activeItem; //held item if player is currently holding one
+let activeItem = null; //held item if player is currently holding one
 
 let sc0, sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8; //all scenes
 let int0, int1, int2, int3, int4, int5, int6, int7, int8, int9, int10; //all interactibles
@@ -67,7 +68,13 @@ function createInteractables() {
 }
 
 function createInventory() {
-    //TD
+    let slotX = 10;
+    for(let i = 0; i < inventorySize; i++) {
+        let newSlot = new InventorySlot(slotX, height-50);
+        inventory.push(newSlot);
+        slotX += 25;
+        slotID++;
+    }
 }
 
 function draw() {
@@ -132,7 +139,7 @@ function checkInventory() {
 }
 
 function checkInteractibles() {
-    for(let int of activeScene) {
+    for(let int of activeScene.intArray) {
         if(mouseIsInside(int)) int.mouseHover = true;
         else int.mouseHover = false;
     }
@@ -145,14 +152,31 @@ function mouseIsInside(obj) {
 }
 
 function checkMousePressed(obj) {
-    if(obj.mouseHover && obj instanceof Slot) {
-      food.isDragged = true;
-      checkDragging(food);
+    //if mouse is pressed on an inventory item, it starts being dragged
+    //if it's pressed on an interactable object, it interacts with it
+    if(obj.mouseHover) {
+        if(obj instanceof Slot && obj.hasItem) {
+            obj.item = activeItem;
+            activeItem.isDragged = true;
+            checkDragging();
+        }
+        else if(obj instanceof Interactable) {
+            if(!obj.needsItem) obj.interact();
+        }
     }
 }
 
 function checkMouseReleased() {
-    if(activeItem !== null) resetItem(activeItem);
+    if(activeItem !== null) {
+        for(let slot of inventory) {
+            if(slot.item === activeItem) {
+                activeItem.x = slot.x;
+                activeItem.y = slot.y;
+            }
+        }
+        activeItem = null;
+        //TD if activeItem is dropped onto another slot, swap? maybe?
+    }
 }
 
 function addItemToInventory(item) {
@@ -168,7 +192,12 @@ function displayGame() {
     rectMode(CENTER);
     imageMode(CENTER);
 
+    //TD display player cursor
+
+    //display active scene and interactables
     activeScene.display();
+
+    //display inventory & player items
     for(let slot of inventory) slot.display();
 }
 
@@ -180,9 +209,9 @@ function ending() {
 function mousePressed() {
     if(manager === `title`) manager = `game`; //goes straight to game for now
 
-    for(let slot of inventory) slot.checkMousePressed();
+    for(let slot of inventory) checkMousePressed(slot);
   }
 
   function mouseReleased() {
-    for(let slot of inventory) slot.checkMouseReleased();
+    for(let slot of inventory) checkMouseReleased(slot);
   }

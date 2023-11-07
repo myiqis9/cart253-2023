@@ -7,10 +7,6 @@ class Arrow {
         this.image = null;
     }
 
-    load() {
-
-    }
-
     clicked(position) {
         switch(position) {
             case `left`:
@@ -22,7 +18,7 @@ class Arrow {
                 else activeScene++;
             break;
             case `down`:
-                let newScene = scenes[activeScene].previous;
+                let newScene = scenes[activeScene].previous; //TD CHANGE THIS ITS PLACEHOLDER IT WONT WORK!
                 activeScene = newScene;
             break;
         }

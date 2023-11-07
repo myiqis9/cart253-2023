@@ -27,7 +27,8 @@ class InventorySlot {
 
     display() {
         push();
-        fill(0);
+        fill(255);
+        noStroke();
 
         rect(this.x, this.y, this.size);
         if(this.hasItem) this.item.display();
