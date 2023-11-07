@@ -1,10 +1,11 @@
 class Interactable {
-    constructor(name, x, y, w, h, addsItem, needsItem, revealsObject, movesScenes) {
+    constructor(name, x, y, w, h, addsItem, needsItem, revealsObject, movesScenes, img, imgInteracted) {
         this.name = name; //id purposes. r0-r1-r2-r3 designation for objects in room, z0-z1-z2-z3-z4-z5 objects in zoomed areas
         this.x = x;
         this.y = y;
         this.width = w;
         this.height = h;
+        this.size = (w+h)/2;
 
         //a bunch of booleans for identification
         this.addsItem = addsItem; //does interacting with this object add an item to your inventory?
@@ -14,8 +15,8 @@ class Interactable {
 
         //interaction
         this.mouseHover = false; //is mouse on object?
-        this.img = null; //image
-        this.imgInteracted = null; //if object changes when interacted with, otherwise keep null
+        this.img = img; //image
+        this.imgInteracted = imgInteracted; //if object changes when interacted with, otherwise keep null
     }
 
     interact() {

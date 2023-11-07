@@ -19,6 +19,8 @@ let sc0ints = [], sc1ints = [], sc2ints = [], sc3ints = [], sc4ints = [];
 let sc5ints = [], sc6ints = [], sc7ints = [], sc8ints = []; //interactables in each scene
 let leftArrow, rightArrow, downArrow; //arrows
 
+let int0Img;
+
 let player = {
     x: undefined,
     y: undefined,
@@ -65,6 +67,18 @@ function createScenes() {
 
 function createInteractables() {
     //TD
+    //room 1
+    int0 = new Interactable(`r1key`, 100, 100, 50, 50, true, false, false, false, 
+    loadImage(`assets/images/item1.png`), null);
+    sc0ints.push(int0);
+
+    //room 2
+
+
+    //room 3
+
+
+    //room 4
 }
 
 function createInventory() {
