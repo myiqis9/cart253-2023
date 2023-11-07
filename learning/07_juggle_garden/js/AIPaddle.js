@@ -23,7 +23,7 @@ class AIPaddle {
     display() {
       push();
       rectMode(CENTER);
-      fill(255, 255, 255);
+      fill(255);
       stroke(255, 0, 0);
       strokeWeight(2);
       rect(this.x, this.y, this.width, this.height);
