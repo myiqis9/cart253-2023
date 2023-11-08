@@ -6,7 +6,7 @@ class InventorySlot {
         this.hasItem = false; //does this slot have an item?
         this.item = null; //item inside slot
         this.mouseHover = false; //is mouse hovering slot?
-        this.size = 55;
+        this.size = 65;
     }
 
     add(item) {
@@ -29,7 +29,6 @@ class InventorySlot {
         push();
         fill(255);
         noStroke();
-
         rect(this.x, this.y, this.size);
         if(this.hasItem) this.item.display();
         pop();

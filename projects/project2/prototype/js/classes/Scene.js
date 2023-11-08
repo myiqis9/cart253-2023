@@ -1,5 +1,6 @@
 class Scene {
-    constructor(name, intArray, previous) {
+    constructor(id, name, intArray, previous) {
+        this.id = id;
         this.name = name; //id purposes
         this.intArray = intArray; //array of all interactable items in that scene
         this.previous = previous; //if scene is within another scene, this leads back to previous. if not, default null
@@ -9,21 +10,19 @@ class Scene {
         //TD display scene
         switch(this.name) {
             //depending on scene name, display whatever is needed in the background && relevant arrow(s)
-            case `room1`:
-                print(`room 1 displaying`);
+            case `room1`: case `room2`: case `room3`: case `room4`:
+                print(`${this.name} displaying`);
 
-            break;
-            case `room2`:
-                print(`room 2 displaying`);
+                push();
+                background(100, 100, 210);
+                fill(204, 50, 102);
+                noStroke();
+                rect(width/2, height/2+200, 600, 300);
+                pop();
 
-            break;
-            case `room3`:
-                print(`room 3 displaying`);
-
-            break;
-            case `room4`:
-                print(`room 4 displaying`);
-
+                leftArrow.active = true;
+                rightArrow.active = true;
+                downArrow.active = false;
             break;
             case `zoom1`:
                 print(`zoom 1 displaying`);

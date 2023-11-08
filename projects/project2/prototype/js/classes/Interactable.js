@@ -28,8 +28,15 @@ class Interactable {
     }
 
     addItem() {
+        print(`adding ${this.name} to inventory`);
         let newItem;
         switch(this.name) {
+            case `r1bluekey`:
+                newItem = new Item(this.name, null, this.img);
+                addItemToInventory(newItem);
+                break;
+            case `r2redkey`:
+                break;
             //TD depending on which interactible it is, create and add appropriate item to inventory
             //newItem = new Item();
             //addItemToInventory(newItem);

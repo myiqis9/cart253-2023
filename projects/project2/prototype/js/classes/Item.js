@@ -1,12 +1,12 @@
 class Item {
-    constructor(name, x, y, interactsWith) {
+    constructor(name, interactsWith, img) {
         this.name = name; //id purposes
-        this.x = x;
-        this.y = y;
+        this.x = null;
+        this.y = null;
         this.interactsWith = interactsWith; //string of interactable that item interacts with
         this.isDragged = false; //is item being dragged?
-        this.img = null; //image
-        this.size = 50;
+        this.img = img; //image
+        this.size = 60;
     }
 
     interacted() {
