@@ -31,7 +31,7 @@ let player = {
 
 //loading images
 let images = {};
-let imgNames = [`item1`, `item2`, `item3`, `arrowDown`, `arrowLeft`, `arrowRight`];
+let imgNames = [`item1`, `item2`, `item3`, `box1`, `box1open`, `arrowDown`, `arrowLeft`, `arrowRight`];
 
 function preload() {
     //preload all images
@@ -77,19 +77,21 @@ function createScenes() {
 }
 
 function createInteractables() {
-    //TD
+    //bool order: addsItem, needsItem, revealsObject, movesScenes
     //room 1
-    int0 = new Interactable(`r1bluekey`, 100, 100, 50, 50, true, false, false, false, 
-    images.item1, null);
+    int0 = new Interactable(`r1bluekey`, 100, 100, 50, 50, 
+    true, false, false, false, images.item1, null);
     sc0ints.push(int0);
 
     //room 2
-    int1 = new Interactable(`r2redkey`, width/2, height/2, 50, 50, true, true, false, false, 
-    images.item2, null);
+    int1 = new Interactable(`r2redkey`, width/2, height/2, 50, 50, 
+    true, false, false, false, images.item2, null);
     sc1ints.push(int1);
 
     //room 3
-
+    int2 = new Interactable(`r3box`, width/2+75, height/2+50, 100, 100, 
+    false, true, true, false, images.box1, images.box1open);
+    sc2ints.push(int2);
 
     //room 4
 }
@@ -150,6 +152,8 @@ function checkDraggedItemInteraction() {
             if (d < activeItem.size / 2 && activeItem.interactsWith === int.name) {
                 int.interact();
                 activeItem.interacted();
+                activeItem = null;
+                break;
             }
         }
     }
@@ -198,7 +202,7 @@ function checkMousePressed(obj) {
     //if it's on an arrow, change scenes
     if(obj.mouseHover) {
         if(obj instanceof InventorySlot && obj.hasItem) {
-            obj.item = activeItem;
+            activeItem = obj.item;
             activeItem.isDragged = true;
             checkDragging();
         }
@@ -211,10 +215,23 @@ function checkMousePressed(obj) {
 
 function checkMouseReleased() {
     if(activeItem !== null) {
+        let tempSlot;
         for(let slot of inventory) {
-            if(slot.item === activeItem) {
-                activeItem.x = slot.x;
-                activeItem.y = slot.y;
+            if(slot.item === activeItem) tempSlot = slot;
+        }
+
+        //if activeItem is dropped onto another slot, swap slots
+        //else drop it back to its original slot
+        for(let dropSlot of inventory) {
+            if(dropSlot.mouseHover && !dropSlot.hasItem) {
+                tempSlot.empty(activeItem);
+                dropSlot.add(activeItem);
+                print(`swapped items`);
+                break;
+            }
+            else {
+                activeItem.x = tempSlot.x;
+                activeItem.y = tempSlot.y;
             }
         }
         activeItem = null;
@@ -241,8 +258,9 @@ function displayGame() {
     //display arrows
     for(let arrow of arrows) if(arrow.active) arrow.display();
 
-    //display inventory & player items
+    //display inventory & player items (separately, otherwise items won't print on top of other slots when dragged1)
     for(let slot of inventory) slot.display();
+    for(let slot of inventory) if(slot.hasItem) slot.item.display();
     
     //TD display player cursor
 }

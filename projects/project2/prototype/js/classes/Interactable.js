@@ -32,11 +32,17 @@ class Interactable {
         let newItem;
         switch(this.name) {
             case `r1bluekey`:
-                newItem = new Item(this.name, null, this.img);
+                newItem = new Item(this.name, `r3box`, this.img);
                 addItemToInventory(newItem);
                 break;
             case `r2redkey`:
+                newItem = new Item(this.name, null, this.img);
+                addItemToInventory(newItem);
                 break;
+            case `r3yellowkey`:
+                newItem = new Item(this.name, null, this.img);
+                addItemToInventory(newItem);
+            break;
             //TD depending on which interactible it is, create and add appropriate item to inventory
             //newItem = new Item();
             //addItemToInventory(newItem);
@@ -56,12 +62,17 @@ class Interactable {
     }
 
     revealObject() {
+        let newInt;
+        //depending on which interactible it is, add appropriate hidden interactible to current scene
         switch(this.name) {
-            //TD depending on which interactible it is, add appropriate hidden interactible to activeScene int array
-            //activeScene.intArray.push(int10);
-            //set revealsObject as false so it doesn't repeat this next time it's interacted with
-            //revealsObject = false;
+            case `r3box`:
+                newInt = new Interactable(`r3yellowkey`, this.x, this.y-25, 50, 50, 
+                true, false, false, false, images.item3, null);
+                activeScene.intArray.push(newInt);
+            break;
         }
+        //set revealsObject as false so it doesn't repeat this next time it's interacted with
+        this.revealsObject = false;
     }
 
     display() {

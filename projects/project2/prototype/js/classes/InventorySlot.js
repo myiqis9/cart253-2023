@@ -30,7 +30,6 @@ class InventorySlot {
         fill(255);
         noStroke();
         rect(this.x, this.y, this.size);
-        if(this.hasItem) this.item.display();
         pop();
     }
 }
