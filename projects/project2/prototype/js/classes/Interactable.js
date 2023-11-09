@@ -28,7 +28,9 @@ class Interactable {
     }
 
     addItem() {
+        //depending on which interactible it is, create and add appropriate item to inventory
         print(`adding ${this.name} to inventory`);
+        
         let newItem;
         switch(this.name) {
             case `r1bluekey`:
@@ -39,13 +41,10 @@ class Interactable {
                 newItem = new Item(this.name, null, this.img);
                 addItemToInventory(newItem);
                 break;
-            case `r3yellowkey`:
+            case `r3goldkey`:
                 newItem = new Item(this.name, null, this.img);
                 addItemToInventory(newItem);
             break;
-            //TD depending on which interactible it is, create and add appropriate item to inventory
-            //newItem = new Item();
-            //addItemToInventory(newItem);
         }
 
         //remove interactible object from scene
@@ -58,7 +57,7 @@ class Interactable {
     moveScene() {
         switch(this.name) {
             case `r4safe`:
-                activeScene = sc4;
+                activeScene = sc5;
             break;
         }
     }

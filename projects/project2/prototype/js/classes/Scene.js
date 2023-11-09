@@ -22,8 +22,8 @@ class Scene {
                 rightArrow.active = true;
                 downArrow.active = false;
             break;
-            case `zoom1`:
-                print(`zoom 1 displaying`);
+            case `zoomSafe`:
+                print(`safe displaying`);
                 push();
                 background(95, 25, 25);
                 pop();

@@ -12,10 +12,11 @@ let inventory = []; //player inventory
 let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
 
-let sc0, sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8; //all scenes
+let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9; //all scenes
 let intBlueKey, intRedKey, intBox, intSafe; //all interactibles
-let sc0ints = [], sc1ints = [], sc2ints = [], sc3ints = [], sc4ints = [];
-let sc5ints = [], sc6ints = [], sc7ints = [], sc8ints = []; //interactables in each scene
+let sc1ints = [], sc2ints = [], sc3ints = [], sc4ints = [], sc5ints = [];
+let sc6ints = [], sc7ints = [], sc8ints = [], sc9ints = []; //interactables in each scene
+
 let leftArrow, rightArrow, downArrow; //arrows
 let arrows = []; //array of arrows
 
@@ -63,17 +64,17 @@ function setupPlayer() {
 }
 
 function createScenes() {
-    sc0 = new Scene(0, "room1", sc0ints, null);
-    sc1 = new Scene(1, "room2", sc1ints, null);
-    sc2 = new Scene(2, "room3", sc2ints, null);
-    sc3 = new Scene(3, "room4", sc3ints, null);
-    sc4 = new Scene(4, "zoom1", sc4ints, sc3); //safe
-    sc5 = new Scene(5, "zoom2", sc5ints, null); //painting/taxidermy
-    sc6 = new Scene(6, "zoom3", sc6ints, null); //sink
-    sc7 = new Scene(7, "zoom4", sc7ints, null); //cupboard
-    sc8 = new Scene(8, "zoom5", sc8ints, null); //door
-    scenes.push(sc0, sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8);
-    activeScene = sc0;
+    sc1 = new Scene(1, "room1", sc1ints, null);
+    sc2 = new Scene(2, "room2", sc2ints, null);
+    sc3 = new Scene(3, "room3", sc3ints, null);
+    sc4 = new Scene(4, "room4", sc4ints, null);
+    sc5 = new Scene(5, "zoomSafe", sc5ints, sc3); //safe
+    sc6 = new Scene(6, "zoomPainting", sc6ints, null); //painting/taxidermy
+    sc7 = new Scene(7, "zoomSink", sc7ints, null); //sink
+    sc8 = new Scene(8, "zomCupboard", sc8ints, null); //cupboard
+    sc9 = new Scene(9, "zoomDoor", sc9ints, null); //door
+    scenes.push(sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9);
+    activeScene = sc1;
 }
 
 function createInteractables() {
@@ -81,22 +82,22 @@ function createInteractables() {
     //room 1
     intBlueKey = new Interactable(`r1bluekey`, 100, 100, 50, 50, 
     true, false, false, false, images.bluekey, null);
-    sc0ints.push(intBlueKey);
+    sc1ints.push(intBlueKey);
 
     //room 2
     intRedKey = new Interactable(`r2redkey`, width/2, height/2, 50, 50, 
     true, false, false, false, images.redkey, null);
-    sc1ints.push(intRedKey);
+    sc2ints.push(intRedKey);
 
     //room 3
     intBox = new Interactable(`r3box`, width/2+75, height/2+50, 100, 100, 
     false, true, true, false, images.box1, images.box1open);
-    sc2ints.push(intBox);
+    sc3ints.push(intBox);
 
     //room 4
     intSafe = new Interactable(`r4safe`, width/2-50, height/2+50, 120, 120,
     false, false, false, true, images.safe, null);
-    sc3ints.push(intSafe);
+    sc4ints.push(intSafe);
 }
 
 function createInventory() {

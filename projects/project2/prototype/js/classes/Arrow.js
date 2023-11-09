@@ -16,12 +16,12 @@ class Arrow {
         switch(this.position) {
             case `left`:
                 newID--;
-                if(newID < 0) newID = 3;
+                if(newID < 1) newID = 4;
                 for(let scene of scenes) if(scene.id === newID) newScene = scene;
             break;
             case `right`: 
                 newID++;
-                if(newID > 3) newID = 0;
+                if(newID > 4) newID = 1;
                 for(let scene of scenes) if(scene.id === newID) newScene = scene;
             break;
             case `down`: newScene = activeScene.previous;
