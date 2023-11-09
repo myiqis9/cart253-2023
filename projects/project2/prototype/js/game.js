@@ -68,7 +68,7 @@ function createScenes() {
     sc2 = new Scene(2, "room2", sc2ints, null);
     sc3 = new Scene(3, "room3", sc3ints, null);
     sc4 = new Scene(4, "room4", sc4ints, null);
-    sc5 = new Scene(5, "zoomSafe", sc5ints, sc3); //safe
+    sc5 = new Scene(5, "zoomSafe", sc5ints, sc4); //safe
     sc6 = new Scene(6, "zoomPainting", sc6ints, null); //painting/taxidermy
     sc7 = new Scene(7, "zoomSink", sc7ints, null); //sink
     sc8 = new Scene(8, "zomCupboard", sc8ints, null); //cupboard
