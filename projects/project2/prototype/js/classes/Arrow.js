@@ -10,41 +10,24 @@ class Arrow {
     }
 
     clicked() {
-        print(`clicked ${this.position}`);
+        let newID = activeScene.id;
         let newScene;
 
         switch(this.position) {
             case `left`:
-                if(activeScene.name === `room1`) {
-                    for(let scene of scenes) if(scene.name === `room4`) newScene = scene;
-                }
-                if(activeScene.name === `room2`) {
-                    for(let scene of scenes) if(scene.name === `room1`) newScene = scene;
-                }
-                if(activeScene.name === `room3`) {
-                    for(let scene of scenes) if(scene.name === `room2`) newScene = scene;
-                }
-                if(activeScene.name === `room4`) {
-                    for(let scene of scenes) if(scene.name === `room3`) newScene = scene;
-                }
+                newID--;
+                if(newID < 0) newID = 3;
+                for(let scene of scenes) if(scene.id === newID) newScene = scene;
             break;
             case `right`: 
-            if(activeScene.name === `room1`) {
-                for(let scene of scenes) if(scene.name === `room2`) newScene = scene;
-            }
-            if(activeScene.name === `room2`) {
-                for(let scene of scenes) if(scene.name === `room3`) newScene = scene;
-            }
-            if(activeScene.name === `room3`) {
-                for(let scene of scenes) if(scene.name === `room4`) newScene = scene;
-            }
-            if(activeScene.name === `room4`) {
-                for(let scene of scenes) if(scene.name === `room1`) newScene = scene;
-            }
+                newID++;
+                if(newID > 3) newID = 0;
+                for(let scene of scenes) if(scene.id === newID) newScene = scene;
             break;
             case `down`: newScene = activeScene.previous;
             break;
         }
+        print(`clicked ${this.position} newID: ${newID}`);
         activeScene = newScene;
     }
 

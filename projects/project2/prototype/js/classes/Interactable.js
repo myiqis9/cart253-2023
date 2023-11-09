@@ -57,7 +57,9 @@ class Interactable {
 
     moveScene() {
         switch(this.name) {
-            //TD move to another scene
+            case `r4safe`:
+                activeScene = sc4;
+            break;
         }
     }
 
@@ -66,8 +68,8 @@ class Interactable {
         //depending on which interactible it is, add appropriate hidden interactible to current scene
         switch(this.name) {
             case `r3box`:
-                newInt = new Interactable(`r3yellowkey`, this.x, this.y-25, 50, 50, 
-                true, false, false, false, images.item3, null);
+                newInt = new Interactable(`r3goldkey`, this.x, this.y-25, 50, 50, 
+                true, false, false, false, images.goldkey, null);
                 activeScene.intArray.push(newInt);
             break;
         }

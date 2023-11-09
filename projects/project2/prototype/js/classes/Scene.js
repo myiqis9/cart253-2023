@@ -11,8 +11,6 @@ class Scene {
         switch(this.name) {
             //depending on scene name, display whatever is needed in the background && relevant arrow(s)
             case `room1`: case `room2`: case `room3`: case `room4`:
-                print(`${this.name} displaying`);
-
                 push();
                 background(100, 100, 210);
                 fill(204, 50, 102);
@@ -26,23 +24,13 @@ class Scene {
             break;
             case `zoom1`:
                 print(`zoom 1 displaying`);
+                push();
+                background(95, 25, 25);
+                pop();
 
-            break;
-            case `zoom2`:
-                print(`zoom 2 displaying`);
-
-            break;
-            case `zoom3`:
-                print(`zoom 3 displaying`);
-
-            break;
-            case `zoom4`:
-                print(`zoom 4 displaying`);
-
-            break;
-            case `zoom5`:
-                print(`zoom 5 displaying`);
-
+                leftArrow.active = false;
+                rightArrow.active = false;
+                downArrow.active = true;
             break;
         }
 

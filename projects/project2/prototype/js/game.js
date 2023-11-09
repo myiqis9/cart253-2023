@@ -13,7 +13,7 @@ let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
 
 let sc0, sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8; //all scenes
-let int0, int1, int2, int3, int4, int5, int6, int7, int8, int9, int10; //all interactibles
+let intBlueKey, intRedKey, intBox, intSafe; //all interactibles
 let sc0ints = [], sc1ints = [], sc2ints = [], sc3ints = [], sc4ints = [];
 let sc5ints = [], sc6ints = [], sc7ints = [], sc8ints = []; //interactables in each scene
 let leftArrow, rightArrow, downArrow; //arrows
@@ -30,7 +30,8 @@ let player = {
 
 //loading images
 let images = {};
-let imgNames = [`item1`, `item2`, `item3`, `box1`, `box1open`, `arrowDown`, `arrowLeft`, `arrowRight`];
+let imgNames = [`redkey`, `bluekey`, `goldkey`, `box1`, `box1open`, `safe`,
+`arrowDown`, `arrowLeft`, `arrowRight`];
 
 function preload() {
     //preload all images
@@ -53,7 +54,7 @@ function setup() {
 function setupArrows() {
     leftArrow = new Arrow(`left`, 50, height/2, images.arrowLeft);
     rightArrow = new Arrow(`right`, width-50, height/2, images.arrowRight);
-    downArrow = new Arrow(`down`, width/2, height-50, images.arrowDown);
+    downArrow = new Arrow(`down`, width/2, height-120, images.arrowDown);
     arrows.push(leftArrow, rightArrow, downArrow);
 }
 
@@ -66,11 +67,11 @@ function createScenes() {
     sc1 = new Scene(1, "room2", sc1ints, null);
     sc2 = new Scene(2, "room3", sc2ints, null);
     sc3 = new Scene(3, "room4", sc3ints, null);
-    sc4 = new Scene(4, "zoom1", sc4ints, 0);
-    sc5 = new Scene(5, "zoom2", sc5ints, 0);
-    sc6 = new Scene(6, "zoom3", sc6ints, 0);
-    sc7 = new Scene(7, "zoom4", sc7ints, 0);
-    sc8 = new Scene(8, "zoom5", sc8ints, 0);
+    sc4 = new Scene(4, "zoom1", sc4ints, sc3); //safe
+    sc5 = new Scene(5, "zoom2", sc5ints, null); //painting/taxidermy
+    sc6 = new Scene(6, "zoom3", sc6ints, null); //sink
+    sc7 = new Scene(7, "zoom4", sc7ints, null); //cupboard
+    sc8 = new Scene(8, "zoom5", sc8ints, null); //door
     scenes.push(sc0, sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8);
     activeScene = sc0;
 }
@@ -78,27 +79,30 @@ function createScenes() {
 function createInteractables() {
     //bool order: addsItem, needsItem, revealsObject, movesScenes
     //room 1
-    int0 = new Interactable(`r1bluekey`, 100, 100, 50, 50, 
-    true, false, false, false, images.item1, null);
-    sc0ints.push(int0);
+    intBlueKey = new Interactable(`r1bluekey`, 100, 100, 50, 50, 
+    true, false, false, false, images.bluekey, null);
+    sc0ints.push(intBlueKey);
 
     //room 2
-    int1 = new Interactable(`r2redkey`, width/2, height/2, 50, 50, 
-    true, false, false, false, images.item2, null);
-    sc1ints.push(int1);
+    intRedKey = new Interactable(`r2redkey`, width/2, height/2, 50, 50, 
+    true, false, false, false, images.redkey, null);
+    sc1ints.push(intRedKey);
 
     //room 3
-    int2 = new Interactable(`r3box`, width/2+75, height/2+50, 100, 100, 
+    intBox = new Interactable(`r3box`, width/2+75, height/2+50, 100, 100, 
     false, true, true, false, images.box1, images.box1open);
-    sc2ints.push(int2);
+    sc2ints.push(intBox);
 
     //room 4
+    intSafe = new Interactable(`r4safe`, width/2-50, height/2+50, 120, 120,
+    false, false, false, true, images.safe, null);
+    sc3ints.push(intSafe);
 }
 
 function createInventory() {
-    let slotX = 145;
+    let slotX = 150;
     for(let i = 0; i < inventorySize; i++) {
-        let newSlot = new InventorySlot(slotX, height-50);
+        let newSlot = new InventorySlot(slotX, height-44);
         inventory.push(newSlot);
         slotX += 75;
     }
@@ -215,7 +219,10 @@ function checkMouseReleased() {
     if(activeItem !== null) {
         let tempSlot;
         for(let slot of inventory) {
-            if(slot.item === activeItem) tempSlot = slot;
+           if(slot.item === activeItem) {
+                tempSlot = slot;
+                break;
+            }
         }
 
         //if activeItem is dropped onto another slot, swap slots
@@ -240,6 +247,18 @@ function addItemToInventory(item) {
     }
 }
 
+function displayInventoryMenu() {
+    push();
+    fill(255);
+    noStroke();
+    rect(width/2, height-40, 600, 96);
+    fill(0);
+    stroke(70, 20, 15);
+    strokeWeight(2);
+    rect(width/2, height-44, 390, 86);
+    pop();
+}
+
 function displayGame() {
     rectMode(CENTER);
     imageMode(CENTER);
@@ -249,6 +268,9 @@ function displayGame() {
 
     //display arrows
     for(let arrow of arrows) if(arrow.active) arrow.display();
+
+    //inventory background
+    displayInventoryMenu();
 
     //display inventory & player items (separately, otherwise items won't print on top of other slots when dragged1)
     for(let slot of inventory) slot.display();

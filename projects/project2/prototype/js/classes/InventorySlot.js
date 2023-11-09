@@ -26,6 +26,7 @@ class InventorySlot {
         if(drop.hasItem) {
             this.add(drop.item);
             drop.add(activeItem);
+            print(`swapped items`);
         }
         else {
             this.empty();
@@ -36,8 +37,9 @@ class InventorySlot {
 
     display() {
         push();
-        fill(255);
-        noStroke();
+        fill(75, 15, 10);
+        stroke(95, 25, 25);
+        strokeWeight(2);
         rect(this.x, this.y, this.size);
         pop();
     }
