@@ -10,7 +10,6 @@ let heldItem = null; //item being dragged
 let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-8(?) are zoom-ins on interactables
 let inventory = []; //player inventory
 let inventorySize = 5;
-let slotID = 0; //id for slots, might not be needed?
 let activeItem = null; //held item if player is currently holding one
 
 let sc0, sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8; //all scenes
@@ -102,7 +101,6 @@ function createInventory() {
         let newSlot = new InventorySlot(slotX, height-50);
         inventory.push(newSlot);
         slotX += 75;
-        slotID++;
     }
 }
 
@@ -223,19 +221,13 @@ function checkMouseReleased() {
         //if activeItem is dropped onto another slot, swap slots
         //else drop it back to its original slot
         for(let dropSlot of inventory) {
-            if(dropSlot.mouseHover && !dropSlot.hasItem) {
-                tempSlot.empty(activeItem);
-                dropSlot.add(activeItem);
-                print(`swapped items`);
+            if(dropSlot.mouseHover) {
+                tempSlot.swap(dropSlot);
                 break;
             }
-            else {
-                activeItem.x = tempSlot.x;
-                activeItem.y = tempSlot.y;
-            }
+            else tempSlot.add(activeItem);
         }
         activeItem = null;
-        //TD if activeItem is dropped onto another slot, swap? maybe?
     }
 }
 

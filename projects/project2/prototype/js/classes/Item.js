@@ -11,7 +11,7 @@ class Item {
 
     interacted() {
         for(let slot of inventory) {
-            if(slot.hasItem && slot.item.name === this.name) slot.empty(this);
+            if(slot.hasItem && slot.item.name === this.name) slot.empty();
         }
     }
 

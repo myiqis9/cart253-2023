@@ -1,6 +1,5 @@
 class InventorySlot {
     constructor(x, y) {
-        this.id = slotID; //id purposes? might not be needed
         this.x = x;
         this.y = y;
         this.hasItem = false; //does this slot have an item?
@@ -17,12 +16,22 @@ class InventorySlot {
         item.y = this.y;
     }
 
-    empty(item) {
+    empty() {
         //empty a slot of an item
         this.hasItem = false;
         this.item = null;
-        item.x = 0;
-        item.y = 0;
+    }
+
+    swap(drop) {
+        if(drop.hasItem) {
+            this.add(drop.item);
+            drop.add(activeItem);
+        }
+        else {
+            this.empty();
+            drop.add(activeItem);
+            print(`moved item`);
+        }
     }
 
     display() {
