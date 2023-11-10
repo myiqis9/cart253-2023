@@ -34,7 +34,7 @@ class Puzzle {
     }
 
     addItem() {
-        //depending on which interactible it is, create and add appropriate item to inventory
+        //depending on which object it is, create and add appropriate item to inventory
         print(`adding ${this.name} to inventory`);
         
         let newItem;
@@ -54,9 +54,9 @@ class Puzzle {
         }
 
         //remove interactible object from scene
-        for(let i = 0; i < activeScene.intArray.length; i++) {
-            if(activeScene.intArray[i].name === this.name) 
-            activeScene.intArray.splice(i, 1);
+        for(let i = 0; i < activeScene.puzzleArray.length; i++) {
+            if(activeScene.puzzleArray[i].name === this.name) 
+            activeScene.puzzleArray.splice(i, 1);
         }
     }
 
@@ -75,10 +75,10 @@ class Puzzle {
             case `r3box`:
                 newInt = new Puzzle(`r3goldkey`, this.x, this.y-25, 50, 50, 
                 true, false, false, false, images.goldkey, null);
-                activeScene.intArray.push(newInt);
             break;
         }
         //set revealsObject as false so it doesn't repeat this next time it's interacted with
+        activeScene.puzzleArray.push(newInt);
         this.revealsObject = false;
     }
 

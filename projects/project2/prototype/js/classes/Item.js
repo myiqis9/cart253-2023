@@ -30,6 +30,19 @@ class Item {
         }
     }
 
+    checkInteraction() {
+        for(let int of activeScene.puzzleArray) {
+            let d = dist(int.x, int.y, this.x, this.y);
+        
+            if (d < this.size / 2 && this.interactsWith === int.name) {
+                int.interact();
+                this.interacted();
+                activeItem = null;
+                break;
+            }
+        }
+    }
+
     checkMouseReleased() {
         let tempSlot;
         for(let slot of inventory) {

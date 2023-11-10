@@ -1,8 +1,8 @@
 class Scene {
-    constructor(id, name, intArray, previous) {
+    constructor(id, name, puzzleArray, previous) {
         this.id = id;
         this.name = name; //id purposes
-        this.intArray = intArray; //array of all interactable items in that scene
+        this.puzzleArray = puzzleArray; //array of all interactable items in that scene
         this.previous = previous; //if scene is within another scene, this leads back to previous. if not, default null
     }
 
@@ -35,8 +35,8 @@ class Scene {
             break;
         }
 
-        for(let int of this.intArray) {
-            int.display(); //display all interactables in the scene
+        for(let puzzle of this.puzzleArray) {
+            puzzle.display(); //display all objects in the scene
         }
     }
 }
