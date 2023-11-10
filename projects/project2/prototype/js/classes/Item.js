@@ -20,4 +20,34 @@ class Item {
         image(this.img, this.x, this.y, this.size, this.size);
         pop();
     }
+
+    addToInventory() {
+        for(let slot of inventory) {
+            if(!slot.hasItem) {
+                slot.add(this);
+                break;
+            }
+        }
+    }
+
+    checkMouseReleased() {
+        let tempSlot;
+        for(let slot of inventory) {
+            if(slot.item === this) {
+                tempSlot = slot;
+                break;
+            }
+        }
+    
+        //if activeItem is dropped onto another slot, swap slots
+        //else drop it back to its original slot
+        for(let dropSlot of inventory) {
+            if(dropSlot.mouseHover) {
+                tempSlot.swap(dropSlot);
+                break;
+            }
+            else tempSlot.add(this);
+        }
+        activeItem = null;
+    }
 }

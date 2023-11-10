@@ -23,10 +23,11 @@ class Scene {
                 downArrow.active = false;
             break;
             case `zoomSafe`:
-                print(`safe displaying`);
                 push();
                 background(95, 25, 25);
                 pop();
+
+                for(let lock of locks) lock.display();
 
                 leftArrow.active = false;
                 rightArrow.active = false;

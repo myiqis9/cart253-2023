@@ -1,4 +1,4 @@
-class Interactable {
+class Puzzle {
     constructor(name, x, y, w, h, addsItem, needsItem, revealsObject, movesScenes, img, imgInteracted) {
         this.name = name; //id purposes. r0-r1-r2-r3 designation for objects in room, z0-z1-z2-z3-z4-z5 objects in zoomed areas
         this.x = x;
@@ -19,6 +19,12 @@ class Interactable {
         this.imgInteracted = imgInteracted; //if object changes when interacted with, otherwise keep null
     }
 
+    checkMousePressed() {
+        if(this.mouseHover) {
+            if(!this.needsItem) this.interact();
+        }
+    }
+
     interact() {
         //object is interacted with
         if(this.imgInteracted !== null && this.img !== this.imgInteracted) this.img = this.imgInteracted;
@@ -35,15 +41,15 @@ class Interactable {
         switch(this.name) {
             case `r1bluekey`:
                 newItem = new Item(this.name, `r3box`, this.img);
-                addItemToInventory(newItem);
+                newItem.addToInventory();
                 break;
             case `r2redkey`:
                 newItem = new Item(this.name, null, this.img);
-                addItemToInventory(newItem);
+                newItem.addToInventory();
                 break;
             case `r3goldkey`:
                 newItem = new Item(this.name, null, this.img);
-                addItemToInventory(newItem);
+                newItem.addToInventory();
             break;
         }
 
@@ -67,7 +73,7 @@ class Interactable {
         //depending on which interactible it is, add appropriate hidden interactible to current scene
         switch(this.name) {
             case `r3box`:
-                newInt = new Interactable(`r3goldkey`, this.x, this.y-25, 50, 50, 
+                newInt = new Puzzle(`r3goldkey`, this.x, this.y-25, 50, 50, 
                 true, false, false, false, images.goldkey, null);
                 activeScene.intArray.push(newInt);
             break;

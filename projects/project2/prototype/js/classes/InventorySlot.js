@@ -8,6 +8,14 @@ class InventorySlot {
         this.size = 65;
     }
 
+    checkMousePressed() {
+        if(this.mouseHover && this.hasItem) {
+            activeItem = this.item;
+            activeItem.isDragged = true;
+            checkDragging();
+        }
+    }
+
     add(item) {
         //adds item to slot
         this.hasItem = true;

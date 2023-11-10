@@ -15,7 +15,10 @@ let activeItem = null; //held item if player is currently holding one
 let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9; //all scenes
 let intBlueKey, intRedKey, intBox, intSafe; //all interactibles
 let sc1ints = [], sc2ints = [], sc3ints = [], sc4ints = [], sc5ints = [];
-let sc6ints = [], sc7ints = [], sc8ints = [], sc9ints = []; //interactables in each scene
+let sc6ints = [], sc7ints = [], sc8ints = [], sc9ints = []; //puzzles in each scene
+
+let lock1, lock2, lock3, lock4; //safe lock numbers
+let locks = []; //array of the numbers
 
 let leftArrow, rightArrow, downArrow; //arrows
 let arrows = []; //array of arrows
@@ -47,7 +50,8 @@ function setup() {
     createCanvas(600, 600);
     setupArrows();
     setupPlayer();
-    createInteractables();
+    createPuzzles();
+    createLocks();
     createInventory();
     createScenes();
 }
@@ -77,27 +81,35 @@ function createScenes() {
     activeScene = sc1;
 }
 
-function createInteractables() {
+function createPuzzles() {
     //bool order: addsItem, needsItem, revealsObject, movesScenes
     //room 1
-    intBlueKey = new Interactable(`r1bluekey`, 100, 100, 50, 50, 
+    intBlueKey = new Puzzle(`r1bluekey`, 100, 100, 50, 50, 
     true, false, false, false, images.bluekey, null);
     sc1ints.push(intBlueKey);
 
     //room 2
-    intRedKey = new Interactable(`r2redkey`, width/2, height/2, 50, 50, 
+    intRedKey = new Puzzle(`r2redkey`, width/2, height/2, 50, 50, 
     true, false, false, false, images.redkey, null);
     sc2ints.push(intRedKey);
 
     //room 3
-    intBox = new Interactable(`r3box`, width/2+75, height/2+50, 100, 100, 
+    intBox = new Puzzle(`r3box`, width/2+75, height/2+50, 100, 100, 
     false, true, true, false, images.box1, images.box1open);
     sc3ints.push(intBox);
 
     //room 4
-    intSafe = new Interactable(`r4safe`, width/2-50, height/2+50, 120, 120,
+    intSafe = new Puzzle(`r4safe`, width/2-50, height/2+50, 120, 120,
     false, false, false, true, images.safe, null);
     sc4ints.push(intSafe);
+}
+
+function createLocks() {
+    lock1 = new Lock(2, width/2-50, height/2+10);
+    lock2 = new Lock(2, width/2+25, height/2+10);
+    lock3 = new Lock(2, width/2+100, height/2+10);
+    lock4 = new Lock(2, width/2+175, height/2+10);
+    locks.push(lock1, lock2, lock3, lock4);
 }
 
 function createInventory() {
@@ -199,55 +211,6 @@ function mouseIsInside(obj) {
     else return false;
 }
 
-function checkMousePressed(obj) {
-    //if mouse is pressed on an inventory item, it starts being dragged
-    //if it's pressed on an interactable object, it interacts with it
-    //if it's on an arrow, change scenes
-    if(obj.mouseHover) {
-        if(obj instanceof InventorySlot && obj.hasItem) {
-            activeItem = obj.item;
-            activeItem.isDragged = true;
-            checkDragging();
-        }
-        else if(obj instanceof Interactable) {
-            if(!obj.needsItem) obj.interact();
-        }
-        else if(obj instanceof Arrow) obj.clicked();
-    }
-}
-
-function checkMouseReleased() {
-    if(activeItem !== null) {
-        let tempSlot;
-        for(let slot of inventory) {
-           if(slot.item === activeItem) {
-                tempSlot = slot;
-                break;
-            }
-        }
-
-        //if activeItem is dropped onto another slot, swap slots
-        //else drop it back to its original slot
-        for(let dropSlot of inventory) {
-            if(dropSlot.mouseHover) {
-                tempSlot.swap(dropSlot);
-                break;
-            }
-            else tempSlot.add(activeItem);
-        }
-        activeItem = null;
-    }
-}
-
-function addItemToInventory(item) {
-    for(let slot of inventory) {
-        if(!slot.hasItem) {
-            slot.add(item);
-            break;
-        }
-    }
-}
-
 function displayInventoryMenu() {
     push();
     fill(255);
@@ -263,6 +226,7 @@ function displayInventoryMenu() {
 function displayGame() {
     rectMode(CENTER);
     imageMode(CENTER);
+    textAlign(CENTER, CENTER);
 
     //display active scene and interactables
     activeScene.display();
@@ -288,11 +252,12 @@ function ending() {
 function mousePressed() {
     if(manager === `title`) manager = `game`; //goes straight to game for now
 
-    for(let slot of inventory) checkMousePressed(slot);
-    for(let int of activeScene.intArray) checkMousePressed(int);
-    for(let arrow of arrows) checkMousePressed(arrow);
+    for(let slot of inventory) slot.checkMousePressed();
+    for(let int of activeScene.intArray) int.checkMousePressed();
+    for(let arrow of arrows) arrow.checkMousePressed();
+    if(activeScene.id === 5) for(let lock of locks) lock.checkMousePressed();
   }
 
   function mouseReleased() {
-    for(let slot of inventory) checkMouseReleased(slot);
+    if(activeItem != null) activeItem.checkMouseReleased();
   }

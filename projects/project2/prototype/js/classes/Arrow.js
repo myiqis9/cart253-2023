@@ -9,6 +9,10 @@ class Arrow {
         this.size = 50;
     }
 
+    checkMousePressed() {
+        if(this.mouseHover) this.clicked();
+    }
+
     clicked() {
         let newID = activeScene.id;
         let newScene;
