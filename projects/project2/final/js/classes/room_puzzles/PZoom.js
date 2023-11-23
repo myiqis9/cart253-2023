@@ -1,8 +1,8 @@
 class PZoom extends Puzzle {
     //interacting with this object moves you to another scene
 
-    constructor(name, x, y, w, h, img, imgInteracted) {
-        super(name, x, y, w, h, img, imgInteracted);
+    constructor(name, x, y, w, h, shape, img, imgInteracted) {
+        super(name, x, y, w, h, shape, img, imgInteracted);
     }
 
     interact() {

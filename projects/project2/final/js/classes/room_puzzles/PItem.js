@@ -1,8 +1,8 @@
 class PItem extends Puzzle {
     //interacting with this object adds an item to your inventory
 
-    constructor(name, x, y, w, h, img, imgInteracted) {
-        super(name, x, y, w, h, img, imgInteracted);
+    constructor(name, x, y, w, h, shape, img, imgInteracted) {
+        super(name, x, y, w, h, shape, img, imgInteracted);
     }
 
     interact() {
@@ -16,15 +16,15 @@ class PItem extends Puzzle {
         
         let newItem;
         switch(this.name) {
-            case `bluekey`:
-                newItem = new Item(this.name, `r3box`, this.img);
+            case 'bluekey':
+                newItem = new Item(this.name, 'r3box', this.img);
                 newItem.addToInventory();
                 break;
-            case `redkey`:
+            case 'redkey':
                 newItem = new Item(this.name, null, this.img);
                 newItem.addToInventory();
                 break;
-            case `goldkey`:
+            case 'goldkey':
                 newItem = new Item(this.name, null, this.img);
                 newItem.addToInventory();
             break;

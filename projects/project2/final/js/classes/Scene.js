@@ -10,7 +10,7 @@ class Scene {
         //TD display scene
         switch(this.name) {
             //depending on scene name, display whatever is needed in the background && relevant arrow(s)
-            case `room1`: case `room2`: case `room3`: case `room4`:
+            case 'room1': case 'room2': case 'room3': case 'room4':
                 push();
                 background(100, 100, 210);
                 fill(204, 50, 102);
@@ -22,7 +22,7 @@ class Scene {
                 rightArrow.active = true;
                 downArrow.active = false;
             break;
-            case `zoomSafe`:
+            case 'zoomSafe':
                 push();
                 background(95, 25, 25);
                 pop();

@@ -9,7 +9,7 @@ let manager = `title`; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
 
-let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-12(?) are zoom-ins on areas
+let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-10 are zoom-ins - check Start.js
 let inventory = []; //player inventory
 let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
@@ -114,24 +114,28 @@ function checkDragging() {
 
 function checkHover() {
     for(let slot of inventory) {
-      if(mouseIsInside(slot)) slot.mouseHover = true;
-      else slot.mouseHover = false;
+      slot.mouseHover = mouseIsInside(slot) ? true : false;
     }
 
     for(let puzzle of activeScene.puzzleArray) {
-        if(mouseIsInside(puzzle)) puzzle.mouseHover = true;
-        else puzzle.mouseHover = false;
+        if(puzzle.shape === 'round') puzzle.mouseHover = mouseIsInside(puzzle) ? true : false;
+        else if(puzzle.shape === 'rect') puzzle.mouseHover = mouseIsInsideRect(puzzle) ? true : false;
     }
 
     for(let arrow of arrows) {
-        if(mouseIsInside(arrow) && arrow.active) arrow.mouseHover = true;
-        else arrow.mouseHover = false;
+        arrow.mouseHover = mouseIsInside(arrow) ? true : false;
     }
 }
 
 function mouseIsInside(obj) {
     let d = dist(mouseX, mouseY, obj.x, obj.y);
     if (d < obj.size / 2) return true;
+    else return false;
+}
+
+function mouseIsInsideRect(obj) {
+    if(mouseX > obj.x - obj.width/2 && mouseX < obj.x + obj.width/2
+    && mouseY > obj.y - obj.height/2 && mouseY < obj.y + obj.height/2) return true;
     else return false;
 }
 

@@ -33,19 +33,19 @@ class Start {
     createPuzzles() {
         //bool order: addsItem, needsItem, revealsObject, movesScenes
         //room 1
-        intBlueKey = new PItem(`bluekey`, 100, 100, 50, 50, images.bluekey, null);
+        intBlueKey = new PItem('bluekey', 100, 100, 50, 50, 'round', images.bluekey, null);
         sc1Array.push(intBlueKey);
     
         //room 2
-        intRedKey = new PItem(`redkey`, width/2, height/2, 50, 50, images.redkey, null);
+        intRedKey = new PItem('redkey', width/2, height/2, 50, 50, 'round', images.redkey, null);
         sc2Array.push(intRedKey);
     
         //room 3
-        intBox = new Puzzle(`box`, width/2+75, height/2+50, 100, 100, images.box1, images.box1open);
+        intBox = new Puzzle('box', width/2+75, height/2+50, 100, 100, 'rect', images.box1, images.box1open);
         sc3Array.push(intBox);
     
         //room 4
-        intSafe = new PZoom(`safe`, width/2-50, height/2+50, 120, 120, images.safe, null);
+        intSafe = new PZoom('safe', width/2-50, height/2+50, 120, 120, 'rect', images.safe, null);
         sc4Array.push(intSafe);
     }
     
