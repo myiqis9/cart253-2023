@@ -1,16 +1,11 @@
 class PItem extends Puzzle {
     //interacting with this object adds an item to your inventory
 
-    constructor(name, x, y, w, h, shape, img, imgInteracted) {
-        super(name, x, y, w, h, shape, img, imgInteracted);
+    constructor(name, x, y, w, h, shape, img) {
+        super(name, x, y, w, h, shape, img);
     }
 
     interact() {
-        super.interact();
-        this.addItem();
-    }
-
-    addItem() {
         //depending on which object it is, create and add appropriate item to inventory
         print(`adding ${this.name} to inventory`);
         

@@ -1,5 +1,5 @@
 class Puzzle {
-    constructor(name, x, y, w, h, shape, img, imgInteracted) {
+    constructor(name, x, y, w, h, shape, img) {
         this.name = name; //id purposes
         this.x = x;
         this.y = y;
@@ -13,18 +13,10 @@ class Puzzle {
         //interaction
         this.mouseHover = false; //is mouse on object?
         this.img = img; //image
-        this.imgInteracted = imgInteracted; //if object changes when interacted with, otherwise keep null
     }
 
     checkMousePressed() {
         if(this.mouseHover) this.interact();
-    }
-
-    interact() {
-        //object is interacted with
-        if(this.imgInteracted !== null && this.img !== this.imgInteracted) this.img = this.imgInteracted;
-        //if(this.revealsObject) this.revealObject();
-        if(this.movesScenes) this.moveScene();
     }
 
     revealObject() {

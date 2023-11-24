@@ -9,13 +9,13 @@ let manager = `title`; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
 
-let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-10 are zoom-ins - check Start.js
+let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-10 are zoom-ins - see Start.js
 let inventory = []; //player inventory
 let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
 
 let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12; //all scenes
-let intBlueKey, intRedKey, intBox, intSafe; //all interactibles
+let safe; //unique puzzles - see Start.js
 
 let sc1Array = [], sc2Array = [], sc3Array = [], sc4Array = [], sc5Array = [];
 let sc6Array = [], sc7Array = [], sc8Array = [], sc9Array = [], sc10Array = [];
@@ -41,8 +41,12 @@ let player = {
 
 //loading images
 let images = {};
-let imgNames = [`redkey`, `bluekey`, `goldkey`, `box1`, `box1open`, `safe`,
-`arrowDown`, `arrowLeft`, `arrowRight`];
+let imgNames = [`redkey`, `bluekey`, `goldkey`, //items
+    `door`, `cupboard`, `painting1`, `painting2`, //room 1
+     //room 2
+     //room 3
+    `safe`, //room 4
+    `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
 
 
 function preload() {
@@ -139,16 +143,21 @@ function mouseIsInsideRect(obj) {
     else return false;
 }
 
-function displayInventoryMenu() {
-    push();
-    fill(255);
-    noStroke();
-    rect(width/2, height-40, 600, 96);
-    fill(0);
-    stroke(70, 20, 15);
-    strokeWeight(2);
-    rect(width/2, height-44, 390, 86);
-    pop();
+function checkLockCombination() {
+    let solved = true;
+
+    //checks if all locks are correct, if any one of them isnt then turn solved to false
+    for(let lock of locks) {
+        if(lock.num !== lock.target) {
+            solved = false;
+            break;
+        }
+    }
+
+    if(solved) {
+        safe.open = true;
+        safe.interact();
+    }
 }
 
 function displayGame() {
@@ -172,18 +181,31 @@ function displayGame() {
     //TD display player cursor
 }
 
+function displayInventoryMenu() {
+    push();
+    fill(255);
+    noStroke();
+    rect(width/2, height-40, 600, 96);
+    fill(0);
+    stroke(70, 20, 15);
+    strokeWeight(2);
+    rect(width/2, height-44, 390, 86);
+    pop();
+}
+
 function ending() {
     //I have no idea what the ending will be like. it's an escape room puzzle, so it's pretty linear... 
     //maybe have a way to get a bad ending early?
 }
 
 function mousePressed() {
-    if(manager === `title`) manager = `game`; //goes straight to game for now
-
-    for(let slot of inventory) slot.checkMousePressed();
-    for(let puzzle of activeScene.puzzleArray) puzzle.checkMousePressed();
-    for(let arrow of arrows) arrow.checkMousePressed();
-    if(activeScene.id === 5) for(let lock of locks) lock.checkMousePressed();
+    if(manager === `title`) manager = `game`;
+    else if(manager === 'game') {
+        for(let slot of inventory) slot.checkMousePressed();
+        for(let puzzle of activeScene.puzzleArray) puzzle.checkMousePressed();
+        for(let arrow of arrows) arrow.checkMousePressed();
+        if(activeScene.id === 10) for(let lock of locks) lock.checkMousePressed();
+    }
   }
 
   function mouseReleased() {

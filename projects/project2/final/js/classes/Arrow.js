@@ -6,11 +6,11 @@ class Arrow {
         this.active = false;
         this.mouseHover = false;
         this.img = img;
-        this.size = 50;
+        this.size = 55;
     }
 
     checkMousePressed() {
-        if(this.mouseHover) this.clicked();
+        if(this.mouseHover && this.active) this.clicked();
     }
 
     clicked() {
@@ -31,13 +31,13 @@ class Arrow {
             case `down`: newScene = activeScene.previous;
             break;
         }
-        print(`clicked ${this.position} newID: ${newID}`);
+        print(`clicked ${this.position} newID: ${newScene.id}`);
         activeScene = newScene;
     }
 
     display() {
         push();
-        image(this.img, this.x, this.y);
+        image(this.img, this.x, this.y, this.size, this.size);
         pop();
     }
 }

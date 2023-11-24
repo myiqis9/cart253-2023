@@ -7,27 +7,39 @@ class Scene {
     }
 
     display() {
-        //TD display scene
+        //in order: room1, room2, room3, room4,
+        //zoomDoor, zoomCupboard, zoomStatue, zoomDeer, zoomRadio, zoomSafe, zoomSafeOpen, ZoomWindow
+        background(70, 50, 50);
+
         switch(this.name) {
-            //depending on scene name, display whatever is needed in the background && relevant arrow(s)
+            //display whatever is needed in the background && relevant arrow(s)
             case 'room1': case 'room2': case 'room3': case 'room4':
                 push();
-                background(100, 100, 210);
-                fill(204, 50, 102);
-                noStroke();
-                rect(width/2, height/2+200, 600, 300);
+                fill(25);
+                stroke(10);
+                strokeWeight(5);
+                rect(width/2, height/2+250, 600, 300);
+                fill(70, 50, 50);
+                quad(-5, 510, 28, 400, 28, -5, -5, -5);
+                quad(width+5, 510, width-28, 400, width-28, -5, width+5, -5);
                 pop();
+
+                for(let puzzle of this.puzzleArray) puzzle.display(); //display all objects in scene
 
                 leftArrow.active = true;
                 rightArrow.active = true;
                 downArrow.active = false;
             break;
+            case 'zoomDoor': case 'zoomCupboard': case 'zoomStatue': case 'zoomDeer': case 'zoomSafeOpen': case 'zoomWindow':
+                for(let puzzle of this.puzzleArray) puzzle.display();
+                
+                leftArrow.active = false;
+                rightArrow.active = false;
+                downArrow.active = true;
+            break;
             case 'zoomSafe':
-                push();
-                background(95, 25, 25);
-                pop();
-
-                for(let lock of locks) lock.display();
+                for(let puzzle of this.puzzleArray) puzzle.display();
+                for(let lock of locks) lock.display(); //locks must be displayed after puzzles
 
                 leftArrow.active = false;
                 rightArrow.active = false;
@@ -35,8 +47,6 @@ class Scene {
             break;
         }
 
-        for(let puzzle of this.puzzleArray) {
-            puzzle.display(); //display all objects in the scene
-        }
+        for(let puzzle of this.puzzleArray) puzzle.display(); //display all objects in scene
     }
 }
