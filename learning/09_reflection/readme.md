@@ -1,5 +1,5 @@
-### Reflection on CART 254
-#### Viviana Ema Radu
+### Reflection on CART 253
+#### by Viviana Ema Radu
 
 I've been programming for quite a while, since it was my college major too, and this is far from my first time using JavaScript, but it was my first time using the P5JS library. I think it has a lot of pros and cons when it comes to making little games like the ones we did in this course.
 
