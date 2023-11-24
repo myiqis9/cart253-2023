@@ -1,3 +1,6 @@
+### Reflection on CART 254
+#### Viviana Ema Radu
+
 I've been programming for quite a while, since it was my college major too, and this is far from my first time using JavaScript, but it was my first time using the P5JS library. I think it has a lot of pros and cons when it comes to making little games like the ones we did in this course.
 
 Pros: it's really good at simulations. Since it draws shapes automatically and you can apply most physics imaginable to code in JS to them, it makes for very easy demonstrations on behavior and a good way to create small simple games. It also has a huge sound library to play around with that it would be worth using for that alone.
