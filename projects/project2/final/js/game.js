@@ -33,7 +33,7 @@ let arrows = []; //array of arrows
 
 //loading images
 let images = {};
-let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `igreencube`,//items
+let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `igreencube`, //items
     `door`, `cupboard`, `painting1`, `painting2`, //room 1
     `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
      //room 3

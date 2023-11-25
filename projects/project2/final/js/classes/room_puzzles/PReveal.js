@@ -1,4 +1,4 @@
-class PFill extends Puzzle {
+class PReveal extends Puzzle {
     //this object needs an item to be interacted with AND reveals objects once interacted
 
     constructor(name, x, y, w, h, shape, img, imgInteracted) {

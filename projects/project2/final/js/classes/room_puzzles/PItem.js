@@ -12,7 +12,7 @@ class PItem extends Puzzle {
         let newItem;
         switch(this.name) {
             case 'greencube':
-                newItem = new Item(this.name, 'doorkey3', this.igreencube);
+                newItem = new Item(this.name, 'doorkey3', images.igreencube);
                 newItem.addToInventory();
                 break;
         }
