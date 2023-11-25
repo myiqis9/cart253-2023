@@ -8,6 +8,7 @@ let start; //setup class
 let manager = `title`; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
+let canClick = true; //can player interact with things
 
 let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-10 are zoom-ins - see Start.js
 let inventory = []; //player inventory
@@ -15,7 +16,7 @@ let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
 
 let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12; //all scenes
-let safe; //unique puzzles - see Start.js
+let safe, statue; //unique puzzles - see Start.js
 
 let sc1Array = [], sc2Array = [], sc3Array = [], sc4Array = [], sc5Array = [];
 let sc6Array = [], sc7Array = [], sc8Array = [], sc9Array = [], sc10Array = [];
@@ -30,22 +31,20 @@ let buttons = []; //array of the buttons
 let leftArrow, rightArrow, downArrow; //arrows
 let arrows = []; //array of arrows
 
-let player = {
-    x: undefined,
-    y: undefined,
-    state: `idle`,
-    idleImg: undefined,
-    grabImg: undefined,
-    moveImg: undefined
-};
-
 //loading images
 let images = {};
-let imgNames = [`redkey`, `bluekey`, `goldkey`, //items
+let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `igreencube`,//items
     `door`, `cupboard`, `painting1`, `painting2`, //room 1
-     //room 2
+    `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
      //room 3
     `safe`, //room 4
+    //zoom door
+    //zoom cupboard
+    `statue3`, `placedhand`, //zoom statue
+    //zoom deer
+    //zoom radio
+    //zoom window
+    //zoom safe
     `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
 
 
@@ -62,7 +61,6 @@ function setup() {
     createCanvas(600, 600);
     start = new Start();
     start.setupArrows();
-    start.setupPlayer();
     start.createPuzzles();
     start.createLocks();
     start.createInventory();
@@ -157,6 +155,7 @@ function checkLockCombination() {
     if(solved) {
         safe.open = true;
         safe.interact();
+        //play sound?
     }
 }
 
@@ -200,10 +199,10 @@ function ending() {
 
 function mousePressed() {
     if(manager === `title`) manager = `game`;
-    else if(manager === 'game') {
+    else if(manager === 'game' && canClick) {
+        for(let arrow of arrows) arrow.checkMousePressed();
         for(let slot of inventory) slot.checkMousePressed();
         for(let puzzle of activeScene.puzzleArray) puzzle.checkMousePressed();
-        for(let arrow of arrows) arrow.checkMousePressed();
         if(activeScene.id === 10) for(let lock of locks) lock.checkMousePressed();
     }
   }

@@ -10,6 +10,7 @@ class Scene {
         //in order: room1, room2, room3, room4,
         //zoomDoor, zoomCupboard, zoomStatue, zoomDeer, zoomRadio, zoomSafe, zoomSafeOpen, ZoomWindow
         background(70, 50, 50);
+        print(`scene ${this.name}`);
 
         switch(this.name) {
             //display whatever is needed in the background && relevant arrow(s)

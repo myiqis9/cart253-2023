@@ -3,7 +3,7 @@ class Item {
         this.name = name; //id purposes
         this.x = null;
         this.y = null;
-        this.interactsWith = interactsWith; //string of interactable that item interacts with
+        this.interactsWith = interactsWith; //object name that item interacts with
         this.isDragged = false; //is item being dragged?
         this.img = img; //image
         this.size = 60;
@@ -29,6 +29,7 @@ class Item {
             let d = dist(int.x, int.y, this.x, this.y);
         
             if (d < this.size / 2 && this.interactsWith === int.name) {
+                int.itemInteracted = true;
                 int.interact();
                 this.interacted();
                 activeItem = null;

@@ -11,18 +11,10 @@ class PItem extends Puzzle {
         
         let newItem;
         switch(this.name) {
-            case 'bluekey':
-                newItem = new Item(this.name, 'r3box', this.img);
+            case 'greencube':
+                newItem = new Item(this.name, 'doorkey3', this.igreencube);
                 newItem.addToInventory();
                 break;
-            case 'redkey':
-                newItem = new Item(this.name, null, this.img);
-                newItem.addToInventory();
-                break;
-            case 'goldkey':
-                newItem = new Item(this.name, null, this.img);
-                newItem.addToInventory();
-            break;
         }
 
         //remove interactible object from scene

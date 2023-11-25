@@ -7,6 +7,8 @@ class Arrow {
         this.mouseHover = false;
         this.img = img;
         this.size = 55;
+
+        this.cooldown = null //setinterval
     }
 
     checkMousePressed() {
@@ -33,6 +35,12 @@ class Arrow {
         }
         print(`clicked ${this.position} newID: ${newScene.id}`);
         activeScene = newScene;
+
+        //make sure nothing else can be clicked for a small interval so that nothing collides
+    }
+
+    unpause() {
+        canClick = true;
     }
 
     display() {

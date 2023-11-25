@@ -1,17 +1,9 @@
 class Start {
-    constructor() {
-
-    }
-
     setupArrows() {
         leftArrow = new Arrow(`left`, 50, height/2-35, images.arrowLeft);
         rightArrow = new Arrow(`right`, width-50, height/2-35, images.arrowRight);
         downArrow = new Arrow(`down`, width/2, height-120, images.arrowDown);
         arrows.push(leftArrow, rightArrow, downArrow);
-    }
-    
-    setupPlayer() {
-        //TD
     }
     
     createScenes() {
@@ -25,8 +17,8 @@ class Start {
         sc8 = new Scene(8, "zoomDeer", sc8Array, sc3); //room 3 zoom deer
         sc9 = new Scene(9, "zoomRadio", sc9Array, sc3); //room 3 zoom radio + cupboard
         sc10 = new Scene(10, "zoomSafe", sc10Array, sc4); //room 4 zoom safe (locked)
-        sc11 = new Scene(11, "zoomSafeOpen", sc10Array, sc4); //room 4 zoom safe (unlocked)
-        sc12 = new Scene(12, "zoomWindow", sc11Array, sc4); //room 4 zoom window
+        sc11 = new Scene(11, "zoomSafeOpen", sc11Array, sc4); //room 4 zoom safe (unlocked)
+        sc12 = new Scene(12, "zoomWindow", sc12Array, sc4); //room 4 zoom window
         scenes.push(sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12);
         activeScene = sc1;
     }
@@ -37,13 +29,26 @@ class Start {
         let cupboard = new PZoom('cupboard', width-162, height/2+20, 180, 221, 'rect', images.cupboard);
         let painting = new PFill('painting', width-162, height/2-200, 141, 125, 'rect', images.painting1, images.painting2);
         sc1Array.push(door, cupboard, painting);
+
         //room 2
-    
+        statue = new Statue('statue', 180, height/2-62, 324, 467, 'rect', images.statue1, 
+        images.statue2, images.statue3, images.placedhand, null, null, null);
+        let greencube = new PItem('greencube', 258, height/2+123, 35, 44, 'rect', images.greencube);
+
+        sc2Array.push(statue, greencube);
+
         //room 3
     
         //room 4
         safe = new PSafe('safe', width/2-50, height/2, 120, 120, 'rect', images.safe, images.safe);
         sc4Array.push(safe);
+
+        //zoom door
+
+        //zoom cupboard
+
+        //zoom statue
+        sc7Array.push(statue);
     }
     
     createLocks() {

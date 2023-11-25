@@ -19,18 +19,7 @@ class Puzzle {
         if(this.mouseHover) this.interact();
     }
 
-    revealObject() {
-        let newInt;
-        //depending on which interactible it is, add appropriate hidden interactible to current scene
-        switch(this.name) {
-            case 'box':
-                newInt = new Puzzle('goldkey', this.x, this.y-25, 50, 50, 'round', images.goldkey, null);
-            break;
-        }
-        //set revealsObject as false so it doesn't repeat this next time it's interacted with
-        activeScene.puzzleArray.push(newInt);
-        this.revealsObject = false;
-    }
+    interact() {}
 
     display() {
         push();

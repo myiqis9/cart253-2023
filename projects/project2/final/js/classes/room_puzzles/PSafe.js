@@ -14,4 +14,8 @@ class PSafe extends Puzzle {
         }
         else activeScene = sc10;
     }
+
+    display() {
+        super.display();
+    }
 }
