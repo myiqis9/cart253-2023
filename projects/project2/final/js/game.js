@@ -8,7 +8,9 @@ let start; //setup class
 let manager = `title`; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
+
 let canClick = true; //can player interact with things
+let timeout; //settimeout
 
 let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-10 are zoom-ins - see Start.js
 let inventory = []; //player inventory
@@ -199,7 +201,7 @@ function ending() {
 
 function mousePressed() {
     if(manager === `title`) manager = `game`;
-    else if(manager === 'game' && canClick) {
+    else if(manager === 'game') {
         for(let arrow of arrows) arrow.checkMousePressed();
         for(let slot of inventory) slot.checkMousePressed();
         for(let puzzle of activeScene.puzzleArray) puzzle.checkMousePressed();
@@ -209,4 +211,11 @@ function mousePressed() {
 
   function mouseReleased() {
     if(activeItem != null) activeItem.checkMouseReleased();
+  }
+
+  function cooldown() {
+    canClick = false;
+    timeout = setTimeout(() => {
+        canClick = true;
+    }, 100);
   }

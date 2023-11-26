@@ -15,6 +15,10 @@ class PItem extends Puzzle {
                 newItem = new Item(this.name, 'doorkey3', images.igreencube);
                 newItem.addToInventory();
                 break;
+            case 'paper':
+                newItem = new Item(this.name, 'painting', images.ipaper);
+                newItem.addToInventory();
+                break;
         }
 
         //remove interactible object from scene

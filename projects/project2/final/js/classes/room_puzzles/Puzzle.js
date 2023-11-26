@@ -16,7 +16,10 @@ class Puzzle {
     }
 
     checkMousePressed() {
-        if(this.mouseHover) this.interact();
+        if(this.mouseHover && canClick) {
+            this.interact();
+            cooldown();
+        }
     }
 
     interact() {}

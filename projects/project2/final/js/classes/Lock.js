@@ -23,7 +23,10 @@ class Lock {
 
     checkMousePressed() {
         this.direction = this.checkHover();
-        if(this.direction !== null) this.clicked();
+        if(this.direction !== null && canClick) {
+            this.clicked();
+            cooldown();
+        }
     }
 
     clicked() {

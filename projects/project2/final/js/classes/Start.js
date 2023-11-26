@@ -34,8 +34,9 @@ class Start {
         statue = new Statue('statue', 180, height/2-62, 324, 467, 'rect', images.statue1, 
         images.statue2, images.statue3, images.placedhand, null, null, null);
         let greencube = new PItem('greencube', 258, height/2+123, 35, 44, 'rect', images.greencube);
-
-        sc2Array.push(statue, greencube);
+        let taxidermy = new Puzzle('taxidermy', width-145, height/2-112, 153, 270, 'rect', images.taxidermy);
+        let paper = new PItem('paper', width-68, 89, 45, 57, 'round', images.paper);
+        sc2Array.push(greencube, statue, taxidermy, paper);
 
         //room 3
     
