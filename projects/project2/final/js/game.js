@@ -35,13 +35,14 @@ let arrows = []; //array of arrows
 
 //loading images
 let images = {};
-let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `igreencube`, //items
-    `door`, `cupboard`, `painting1`, `painting2`, //room 1
+let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, 
+    `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, //items
+    `door1`, `cupboard1`, `painting1`, `painting2`, //room 1
     `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
      //room 3
     `safe`, //room 4
-    //zoom door
-    //zoom cupboard
+    `door2`, `redin`, `bluein`, `yellowin`, `greenin`, //zoom door
+    `cupboard2`, `goldchest1`, `goldchest2`, `knife`, //zoom cupboard
     `statue3`, `placedhand`, //zoom statue
     //zoom deer
     //zoom radio

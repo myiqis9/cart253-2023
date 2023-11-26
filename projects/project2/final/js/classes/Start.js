@@ -25,10 +25,10 @@ class Start {
     
     createPuzzles() {
         //room 1
-        let door = new PZoom('door', 190, height/2-92, 234, 384, 'rect', images.door);
-        let cupboard = new PZoom('cupboard', width-162, height/2+20, 180, 221, 'rect', images.cupboard);
+        let door1 = new PZoom('door', 190, height/2-92, 234, 384, 'rect', images.door1);
+        let cupboard1 = new PZoom('cupboard', width-162, height/2+20, 180, 221, 'rect', images.cupboard1);
         let painting = new PFill('painting', width-162, height/2-200, 141, 125, 'rect', images.painting1, images.painting2);
-        sc1Array.push(door, cupboard, painting);
+        sc1Array.push(door1, cupboard1, painting);
 
         //room 2
         statue = new Statue('statue', 180, height/2-62, 324, 467, 'rect', images.statue1, 
@@ -45,8 +45,14 @@ class Start {
         sc4Array.push(safe);
 
         //zoom door
+        let door2 = new PDoor('door2', 300, 257, 600, 511, 'rect', images.door2);
+        sc5Array.push(door2);
 
         //zoom cupboard
+        let cupboard2 = new Puzzle('cupboard2', 290, 257, 596, 511, 'rect', images.cupboard2);
+        let goldchest = new PReveal('goldchest', width/2+14, height/2+103, 205, 156, 'rect', images.goldchest1, images.goldchest2);
+        let knife = new PItem('knife', width/2+3, height/2-94, 280, 54, 'rect', images.knife);
+        sc6Array.push(cupboard2, goldchest, knife);
 
         //zoom statue
         sc7Array.push(statue);

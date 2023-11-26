@@ -17,7 +17,7 @@ class PReveal extends Puzzle {
     revealItem() {
         //depending on what it is, add appropriate hidden object to current scene
         switch(this.name) {
-            case 'box':
+            case 'goldchest':
                 //add key
             break;
         }

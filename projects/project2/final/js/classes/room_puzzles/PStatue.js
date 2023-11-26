@@ -30,20 +30,22 @@ class Statue extends Puzzle {
             sc7Array.push(placedHand);
 
             //start interval for the blood to pour
+            canClick = false;
             this.bloodpour = setInterval(blood, 1500);
         }
     }
 
     blood() {
-        counter++;
         //this starts the counter at 1, so do nothing until 2
-        if(counter === 2) image(this.blood1, null, null, null, null);
-        if(counter === 3) image(this.blood2, null, null, null, null);
-        if(counter === 4) {
-            let blood = new PBlood(); //TD create class
+        if(counter === 1) image(this.blood1, null, null, null, null);
+        if(counter === 2) image(this.blood2, null, null, null, null);
+        if(counter === 3) {
+            let blood = new PBlood(); //TD
             sc7Array.push(blood);
+            canClick = true;
+            clearInterval(this.bloodpour);
         }
-        if(counter === 5) image(this.blood1, null, null, null, null);
+        counter++;
     }
 
     display() {
