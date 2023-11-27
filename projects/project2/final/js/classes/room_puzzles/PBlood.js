@@ -6,10 +6,8 @@ class PBlood extends Puzzle {
     }
 
     interact() {
-        //depending on which object it is, create and add appropriate item to inventory
-        print(`adding ${this.name} to inventory`);
-
-        let redCube = new Item('redcube', 'doorkey2', images.iredcube);
+        //turns the empty cube red when interacted with!
+        let redCube = new Item('redcube', 'doorkey3', images.iredcube);
         redCube.addToInventory();
     }
 

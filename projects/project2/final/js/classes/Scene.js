@@ -1,7 +1,6 @@
 class Scene {
-    constructor(id, name, puzzleArray, previous) {
+    constructor(id, puzzleArray, previous) {
         this.id = id;
-        this.name = name; //id purposes
         this.puzzleArray = puzzleArray; //array of all interactable items in that scene
         this.previous = previous; //if scene is within another scene, this leads back to previous. if not, default null
     }
@@ -11,9 +10,9 @@ class Scene {
         //zoomDoor, zoomCupboard, zoomStatue, zoomDeer, zoomRadio, zoomSafe, zoomSafeOpen, ZoomWindow
         background(70, 50, 50);
 
-        switch(this.name) {
+        switch(this.id) {
             //display whatever is needed in the background && relevant arrow(s)
-            case 'room1': case 'room2': case 'room3': case 'room4':
+            case 1: case 2: case 3: case 4:
                 push();
                 fill(25);
                 stroke(10);
@@ -26,27 +25,28 @@ class Scene {
 
                 for(let puzzle of this.puzzleArray) puzzle.display(); //display all objects in scene
 
-                leftArrow.active = true;
-                rightArrow.active = true;
-                downArrow.active = false;
-            break;
-            case 'zoomDoor': case 'zoomCupboard': case 'zoomStatue': case 'zoomDeer': case 'zoomSafeOpen': case 'zoomWindow':
+                arrows[0].active = true;
+                arrows[1].active = true;
+                arrows[2].active = false;
+                break;
+            case 5: case 6: case 7: case 8: case 11: case 12:
                 for(let puzzle of this.puzzleArray) puzzle.display();
                 
-                leftArrow.active = false;
-                rightArrow.active = false;
-                downArrow.active = true;
-            break;
-            case 'zoomSafe':
+                arrows[0].active = false;
+                arrows[1].active = false;
+                arrows[2].active = true;
+                break;
+            case 9: 
+                //radio TD
+                break;
+            case 10:
                 for(let puzzle of this.puzzleArray) puzzle.display();
                 for(let lock of locks) lock.display(); //locks must be displayed after puzzles
 
-                leftArrow.active = false;
-                rightArrow.active = false;
-                downArrow.active = true;
-            break;
+                arrows[0].active = false;
+                arrows[1].active = false;
+                arrows[2].active = true;
+                break;
         }
-
-        for(let puzzle of this.puzzleArray) puzzle.display(); //display all objects in scene
     }
 }

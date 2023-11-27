@@ -12,11 +12,15 @@ class PItem extends Puzzle {
         let newItem;
         switch(this.name) {
             case 'greencube':
-                newItem = new Item(this.name, 'doorkey3', images.igreencube);
+                newItem = new Item(this.name, 'doorkey', images.igreencube);
                 newItem.addToInventory();
                 break;
             case 'paper':
                 newItem = new Item(this.name, 'painting', images.ipaper);
+                newItem.addToInventory();
+                break;
+            case 'goldkey':
+                newItem = new Item(this.name, 'goldchest', images.igoldkey);
                 newItem.addToInventory();
                 break;
         }
@@ -26,9 +30,5 @@ class PItem extends Puzzle {
             if(activeScene.puzzleArray[i].name === this.name) 
             activeScene.puzzleArray.splice(i, 1);
         }
-    }
-
-    display() {
-        super.display();
     }
 }

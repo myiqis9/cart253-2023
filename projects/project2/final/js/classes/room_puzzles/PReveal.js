@@ -19,15 +19,14 @@ class PReveal extends Puzzle {
         switch(this.name) {
             case 'goldchest':
                 //add key
-            break;
+                break;
+            case 'radio':
+                //
+                break;
         }
         //activeScene.puzzleArray.push();
 
         //set itemInteracted false so this doesn't repeat
         this.itemInteracted = false;
-    }
-
-    display() {
-        super.display();
     }
 }

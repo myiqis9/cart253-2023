@@ -28,8 +28,4 @@ class PZoom extends Puzzle {
                 break;
         }
     }
-
-    display() {
-        super.display();
-    }
 }

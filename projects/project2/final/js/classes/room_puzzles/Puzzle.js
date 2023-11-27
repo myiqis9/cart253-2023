@@ -1,4 +1,6 @@
 class Puzzle {
+    //universal class for all puzzles
+
     constructor(name, x, y, w, h, shape, img) {
         this.name = name; //id purposes
         this.x = x;
@@ -7,10 +9,6 @@ class Puzzle {
         this.height = h;
         this.shape = shape; //'rect' = rectangular, 'round' = circle;
         this.size = (w+h)/2;
-
-        //this.revealsObject = revealsObject; //does this object reveal another hidden object underneath?
-
-        //interaction
         this.mouseHover = false; //is mouse on object?
         this.img = img; //image
     }
@@ -22,7 +20,7 @@ class Puzzle {
         }
     }
 
-    interact() {}
+    interact() {} //placeholder for other extended classes to use
 
     display() {
         push();

@@ -1,6 +1,9 @@
 /**
  * Project 2
  * Viviana Ema Radu
+ * 
+ * Quick rundown of code workings:
+ * - 
  */
 "use strict";
 
@@ -12,26 +15,19 @@ let heldItem = null; //item being dragged
 let canClick = true; //can player interact with things
 let timeout; //settimeout
 
-let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-10 are zoom-ins - see Start.js
 let inventory = []; //player inventory
 let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
 
+let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-11 are zoom-ins - see Start.js
 let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12; //all scenes
 let safe, statue; //unique puzzles - see Start.js
 
-let sc1Array = [], sc2Array = [], sc3Array = [], sc4Array = [], sc5Array = [];
-let sc6Array = [], sc7Array = [], sc8Array = [], sc9Array = [], sc10Array = [];
-let sc11Array = [], sc12Array = []; //puzzles in each scene
 
-let lock1, lock2, lock3, lock4; //safe lock numbers
-let locks = []; //array of the numbers
-
-let button1, button2, button3, button4, button5; //radio buttons
-let buttons = []; //array of the buttons
-
-let leftArrow, rightArrow, downArrow; //arrows
-let arrows = []; //array of arrows
+let locks = []; //array of safe numbers - combination: 3179
+let buttons = []; //array of the buttons on the radio
+let keyslots = []; //array of key slots on the door - blue, yellow, red, green
+let arrows = []; //array of arrows: 0 left, 1 right, 2 down
 
 //loading images
 let images = {};
@@ -144,24 +140,6 @@ function mouseIsInsideRect(obj) {
     else return false;
 }
 
-function checkLockCombination() {
-    let solved = true;
-
-    //checks if all locks are correct, if any one of them isnt then turn solved to false
-    for(let lock of locks) {
-        if(lock.num !== lock.target) {
-            solved = false;
-            break;
-        }
-    }
-
-    if(solved) {
-        safe.open = true;
-        safe.interact();
-        //play sound?
-    }
-}
-
 function displayGame() {
     rectMode(CENTER);
     imageMode(CENTER);
@@ -179,8 +157,6 @@ function displayGame() {
     //display inventory & player items (separately, otherwise items won't print on top of other slots when dragged1)
     for(let slot of inventory) slot.display();
     for(let slot of inventory) if(slot.hasItem) slot.item.display();
-    
-    //TD display player cursor
 }
 
 function displayInventoryMenu() {
@@ -205,7 +181,8 @@ function mousePressed() {
     else if(manager === 'game') {
         for(let arrow of arrows) arrow.checkMousePressed();
         for(let slot of inventory) slot.checkMousePressed();
-        for(let puzzle of activeScene.puzzleArray) puzzle.checkMousePressed();
+        //iterate through the array backwards, since the items displayed on top get interacted with first!
+        for(let i = activeScene.puzzleArray.length - 1; i >= 0; i--) activeScene.puzzleArray[i].checkMousePressed();
         if(activeScene.id === 10) for(let lock of locks) lock.checkMousePressed();
     }
   }

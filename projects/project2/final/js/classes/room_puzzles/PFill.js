@@ -10,8 +10,4 @@ class PFill extends Puzzle {
     interact() {
         if(this.itemInteracted && this.img != this.imgInteracted) this.img = this.imgInteracted; 
     }
-
-    display() {
-        super.display();
-    }
 }
