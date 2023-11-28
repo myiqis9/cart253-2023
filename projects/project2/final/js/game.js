@@ -11,6 +11,7 @@ let start; //setup class
 let manager = `title`; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
+let soundFile, reverb, noise; //bgm
 
 let canClick = true; //can player interact with things
 let timeout; //settimeout
@@ -21,7 +22,7 @@ let activeItem = null; //held item if player is currently holding one
 
 let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-11 are zoom-ins - see Start.js
 let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12; //all scenes
-let safe, statue; //unique puzzles - see Start.js
+let safe, hand; //unique puzzles - see Start.js
 
 
 let locks = []; //array of safe numbers - combination: 3179
@@ -31,16 +32,16 @@ let arrows = []; //array of arrows: 0 left, 1 right, 2 down
 
 //loading images
 let images = {};
-let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, 
+let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`, 
     `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, //items
     `door1`, `cupboard1`, `painting1`, `painting2`, //room 1
     `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
-     //room 3
+    `deertaxidermy`, //room 3
     `safe`, //room 4
     `door2`, `redin`, `bluein`, `yellowin`, `greenin`, //zoom door
     `cupboard2`, `goldchest1`, `goldchest2`, `knife`, //zoom cupboard
     `statue3`, `placedhand`, //zoom statue
-    //zoom deer
+    `deer`, `deermouth`, `emptycube`, //zoom deer
     //zoom radio
     //zoom window
     //zoom safe
@@ -53,6 +54,7 @@ function preload() {
         images[img] = loadImage(`assets/images/${img}.png`);
         //thanks to Pippin for helping me with this!
     }
+    soundFile = loadSound('assets/sounds/satie.mp3');
 }
 
 
@@ -64,6 +66,7 @@ function setup() {
     start.createLocks();
     start.createInventory();
     start.createScenes();
+    start.createBGM();
 }
 
 
@@ -177,7 +180,10 @@ function ending() {
 }
 
 function mousePressed() {
-    if(manager === `title`) manager = `game`;
+    if(manager === `title` && soundFile.isLoaded()) { //make sure sound finished loading first!
+        manager = `game`;
+        start.playBGM();
+    }
     else if(manager === 'game') {
         for(let arrow of arrows) arrow.checkMousePressed();
         for(let slot of inventory) slot.checkMousePressed();

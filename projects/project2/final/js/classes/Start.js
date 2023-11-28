@@ -39,8 +39,7 @@ class Start {
 
         //room 2
         let sc2Array = [];
-        statue = new Statue('statue', 180, height/2-62, 324, 467, 'rect', images.statue1, 
-        images.statue2, images.statue3, images.placedhand, null, null, null);
+        let statue = new PStatue('statue', 180, height/2-62, 324, 467, 'rect', images.statue1, images.statue2, images.statue3);
         let greencube = new PItem('greencube', 258, height/2+123, 35, 44, 'rect', images.greencube);
         let taxidermy = new Puzzle('taxidermy', width-145, height/2-112, 153, 270, 'rect', images.taxidermy);
         let paper = new PItem('paper', width-68, 89, 45, 57, 'round', images.paper);
@@ -48,6 +47,8 @@ class Start {
 
         //room 3
         let sc3Array = [];
+        let deertaxidermy = new PZoom('deertaxidermy', 155, height/2-142, 262, 313, 'rect', images.deertaxidermy);
+        sc3Array.push(deertaxidermy);
     
         //room 4
         let sc4Array = [];
@@ -73,10 +74,16 @@ class Start {
 
         //zoom statue
         let sc7Array = [];
-        sc7Array.push(statue);
+        hand = new PHand('hand', width/2+64, height/2-32, 156, 332, 'rect', images.placedhand);
+        sc7Array.push(statue, hand);
 
+        //zoom deer
         let sc8Array = [];
+        let deer = new Puzzle('deer', width/2, 257, 596, 511, 'rect', images.deer);
+        let deermouth = new PDeerMouth('deermouth', width/2-23, height/2+4, 150, 111, 'round', images.deermouth);
+        sc8Array.push(deer, deermouth);
 
+        //zoom radio
         let sc9Array = [];
 
         let sc10Array = [];
@@ -111,5 +118,28 @@ class Start {
             inventory.push(newSlot);
             slotX += 75;
         }
+    }
+
+    createBGM() {
+        reverb = new p5.Reverb();
+        noise = new p5.Noise('brown');
+        
+        soundFile.disconnect(); // so we'll only hear reverb...
+      
+        //connect soundFile to reverb, reverbTime, decayRate
+        reverb.process(soundFile, 7, 20);
+        this.setSound(1);
+    }
+
+    setSound(drywet) {
+        //strength of reverb (this is what will be modified!)
+        reverb.amp(1.4-drywet);
+        reverb.drywet(drywet);
+        noise.amp(0.042-(drywet/20));
+    }
+
+    playBGM() {
+        soundFile.play();
+        noise.start();
     }
 }

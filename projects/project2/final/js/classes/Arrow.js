@@ -35,7 +35,22 @@ class Arrow {
             break;
         }
         print(`clicked ${this.position} newID: ${newScene.id}`);
+        this.checkBGM(newScene.id);
         activeScene = newScene;
+    }
+
+    checkBGM(room) {
+        let drywet;
+      
+        switch(room) {
+          case 1: drywet = 1;
+          break;
+          case 2: case 4: drywet = 0.55;
+          break;
+          case 3: drywet = 0.25;
+          break;
+        }
+        start.setSound(drywet);
     }
 
     display() {

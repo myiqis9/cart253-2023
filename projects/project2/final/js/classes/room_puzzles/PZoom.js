@@ -17,7 +17,7 @@ class PZoom extends Puzzle {
             case 'statue':
                 activeScene = sc7;
                 break;
-            case 'deer':
+            case 'deertaxidermy':
                 activeScene = sc8;
                 break;
             case 'radio':

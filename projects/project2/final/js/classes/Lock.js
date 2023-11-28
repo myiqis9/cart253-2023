@@ -35,7 +35,25 @@ class Lock {
         if(this.num > 9) this.num = 0;
         if(this.num < 0) this.num = 9;
 
-        checkLockCombination();
+        this.checkLockCombination();
+    }
+
+    checkLockCombination() {
+        let solved = true;
+    
+        //checks if all locks are correct, if any one of them isnt then turn solved to false
+        for(let lock of locks) {
+            if(lock.num !== lock.target) {
+                solved = false;
+                break;
+            }
+        }
+    
+        if(solved) {
+            safe.open = true;
+            safe.interact();
+            //play sound?
+        }
     }
 
     display() {

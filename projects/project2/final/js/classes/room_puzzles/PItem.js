@@ -15,12 +15,28 @@ class PItem extends Puzzle {
                 newItem = new Item(this.name, 'doorkey', images.igreencube);
                 newItem.addToInventory();
                 break;
+            case 'bluecube':
+                newItem = new Item(this.name, 'doorkey', images.ibluecube);
+                newItem.addToInventory();
+                break;
+            case 'yellowcube':
+                newItem = new Item(this.name, 'doorkey', images.iyellowcube);
+                newItem.addToInventory();
+                break;
+            case 'emptycube':
+                newItem = new Item(this.name, 'blood', images.iemptycube);
+                newItem.addToInventory();
+                break;
             case 'paper':
                 newItem = new Item(this.name, 'painting', images.ipaper);
                 newItem.addToInventory();
                 break;
             case 'goldkey':
                 newItem = new Item(this.name, 'goldchest', images.igoldkey);
+                newItem.addToInventory();
+                break;
+            case 'knife': 
+                newItem = new Item(this.name, 'deadbird', images.iknife);
                 newItem.addToInventory();
                 break;
         }
