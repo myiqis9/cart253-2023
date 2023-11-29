@@ -1,31 +1,29 @@
 class PButton extends Puzzle {
     //radio buttons. players need to turn all buttons red for the puzzle to be solved
 
-    constructor(x, y, prev, next) {
-        this.x = x;
-        this.y = y;
-        this.width = 0;
-        this.height = 0;
+    constructor(id, x, y, prev, next, active) {
+        super('button', x, y, 23, 47, 'rect', null);
 
+        this.id = id; //id to find other buttons
         //buttons to the left and right of it
         this.prev = prev;
         this.next = next;
-        this.active = false;
+        this.active = active;
         this.completed = false;
     }
 
     interact() {
-        if(canClick && !this.completed) {
+        if(!this.completed) {
             this.switch();
-            if(prev !== null) this.prev.switch();
-            if(next !== null) this.next.switch();
+            if(this.prev !== null) buttons[this.prev].switch();
+            if(this.next !== null) buttons[this.next].switch();
+            this.checkAllActive();
         }
     }
 
     switch() {
         if(this.active) this.active = false;
         else this.active = true;
-        this.checkAllActive();
     }
 
     checkAllActive() {
@@ -49,5 +47,10 @@ class PButton extends Puzzle {
                 }
             }
         }
+    }
+
+    display() {
+        if(this.active) image(images.buttonactive, this.x, this.y, this.width, this.height);
+        else image(images.buttoninactive, this.x, this.y, this.width, this.height);
     }
 }

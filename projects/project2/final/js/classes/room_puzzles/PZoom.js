@@ -20,7 +20,7 @@ class PZoom extends Puzzle {
             case 'deertaxidermy':
                 activeScene = sc8;
                 break;
-            case 'radio':
+            case 'radiodrawer':
                 activeScene = sc9;
                 break;
             case 'window':

@@ -3,6 +3,7 @@ class PItem extends Puzzle {
 
     constructor(name, x, y, w, h, shape, img) {
         super(name, x, y, w, h, shape, img);
+        this.added = false;
     }
 
     interact() {
@@ -13,38 +14,41 @@ class PItem extends Puzzle {
         switch(this.name) {
             case 'greencube':
                 newItem = new Item(this.name, 'doorkey', images.igreencube);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
             case 'bluecube':
                 newItem = new Item(this.name, 'doorkey', images.ibluecube);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
             case 'yellowcube':
                 newItem = new Item(this.name, 'doorkey', images.iyellowcube);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
             case 'emptycube':
                 newItem = new Item(this.name, 'blood', images.iemptycube);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
             case 'paper':
                 newItem = new Item(this.name, 'painting', images.ipaper);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
             case 'goldkey':
                 newItem = new Item(this.name, 'goldchest', images.igoldkey);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
             case 'knife': 
                 newItem = new Item(this.name, 'deadbird', images.iknife);
-                newItem.addToInventory();
+                this.added = newItem.addToInventory();
                 break;
         }
 
         //remove interactible object from scene
-        for(let i = 0; i < activeScene.puzzleArray.length; i++) {
-            if(activeScene.puzzleArray[i].name === this.name) 
-            activeScene.puzzleArray.splice(i, 1);
+        //ONLY if it was actually picked up - this is checked by this.added
+        if(this.added) {
+            for(let i = 0; i < activeScene.puzzleArray.length; i++) {
+                if(activeScene.puzzleArray[i].name === this.name) 
+                activeScene.puzzleArray.splice(i, 1);
+            }
         }
     }
 }

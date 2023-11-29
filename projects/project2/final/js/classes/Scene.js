@@ -37,7 +37,12 @@ class Scene {
                 arrows[2].active = true;
                 break;
             case 9: 
-                //radio TD
+                for(let puzzle of this.puzzleArray) puzzle.display();
+                for(let button of buttons) button.display();
+
+                arrows[0].active = false;
+                arrows[1].active = false;
+                arrows[2].active = true;
                 break;
             case 10:
                 for(let puzzle of this.puzzleArray) puzzle.display();

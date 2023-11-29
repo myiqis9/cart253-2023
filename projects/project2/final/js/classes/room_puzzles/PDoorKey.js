@@ -21,8 +21,9 @@ class PDoorKey extends Puzzle {
 
     checkMousePressed() {
         if(this.item != null) {
-            this.item.addToInventory();
-            this.item = null;
+            let added = false;
+            added = this.item.addToInventory();
+            if(added) this.item = null;
         }
     }
 

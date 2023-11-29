@@ -36,13 +36,14 @@ let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`,
     `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, //items
     `door1`, `cupboard1`, `painting1`, `painting2`, //room 1
     `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
-    `deertaxidermy`, //room 3
+    `deertaxidermy`, `radiodrawer1`, //room 3
     `safe`, //room 4
     `door2`, `redin`, `bluein`, `yellowin`, `greenin`, //zoom door
     `cupboard2`, `goldchest1`, `goldchest2`, `knife`, //zoom cupboard
     `statue3`, `placedhand`, //zoom statue
     `deer`, `deermouth`, `emptycube`, //zoom deer
-    //zoom radio
+    `radiodrawer2`, `reddrawer`, `reddraweropen`, `bluedrawer`, `bluedraweropen`, //zoom radio
+    `radio`, `radioopen`, `buttonactive`, `buttoninactive`, //zoom radio 2
     //zoom window
     //zoom safe
     `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
@@ -187,9 +188,9 @@ function mousePressed() {
     else if(manager === 'game') {
         for(let arrow of arrows) arrow.checkMousePressed();
         for(let slot of inventory) slot.checkMousePressed();
+        if(activeScene.id === 10) for(let lock of locks) lock.checkMousePressed();
         //iterate through the array backwards, since the items displayed on top get interacted with first!
         for(let i = activeScene.puzzleArray.length - 1; i >= 0; i--) activeScene.puzzleArray[i].checkMousePressed();
-        if(activeScene.id === 10) for(let lock of locks) lock.checkMousePressed();
     }
   }
 

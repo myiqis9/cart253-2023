@@ -48,7 +48,8 @@ class Start {
         //room 3
         let sc3Array = [];
         let deertaxidermy = new PZoom('deertaxidermy', 155, height/2-142, 262, 313, 'rect', images.deertaxidermy);
-        sc3Array.push(deertaxidermy);
+        let radiodrawer = new PZoom('radiodrawer', width-165, height/2, 251, 257, 'rect', images.radiodrawer1);
+        sc3Array.push(deertaxidermy, radiodrawer);
     
         //room 4
         let sc4Array = [];
@@ -85,6 +86,18 @@ class Start {
 
         //zoom radio
         let sc9Array = [];
+        let radiodrawer2 = new Puzzle('radiodrawer2', 299, 281, 587, 462, 'rect', images.radiodrawer2);
+        let radio = new PReveal('radio', width-198, 47, 164, 31, 'rect', images.radio, images.radioopen);
+        let reddrawer = new PReveal('reddrawer', 152, height/2+59, 270, 305, 'rect', images.reddrawer, images.reddraweropen);
+        let bluedrawer = new PReveal('bluedrawer', width-152, height/2+59, 270, 305, 'rect', images.bluedrawer, images.bluedraweropen);
+        let btn1, btn2, btn3, btn4, btn5;
+        btn1 = new PButton(0, 155, 131, null, 1, true);
+        btn2 = new PButton(1, 195, 131, 0, 2, false);
+        btn3 = new PButton(2, 235, 131, 1, 3, true);
+        btn4 = new PButton(3, 275, 131, 2, 4, true);
+        btn5 = new PButton(4, 315, 131, 3, null, false);
+        buttons.push(btn1, btn2, btn3, btn4, btn5);
+        sc9Array.push(radiodrawer2, radio, reddrawer, bluedrawer, btn1, btn2, btn3, btn4, btn5);
 
         let sc10Array = [];
 
@@ -99,16 +112,6 @@ class Start {
         let lock3 = new Lock(7, width/2+100, height/2+10);
         let lock4 = new Lock(9, width/2+175, height/2+10);
         locks.push(lock1, lock2, lock3, lock4);
-    }
-
-    createRadioButtons() {
-        let btn1, btn2, btn3, btn4, btn5;
-        btn1 = new PButton();
-        btn2 = new PButton();
-        btn3 = new PButton();
-        btn4 = new PButton();
-        btn5 = new PButton();
-        buttons.push(btn1, btn2, btn3, btn4, btn5);
     }
     
     createInventory() {

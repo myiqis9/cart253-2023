@@ -15,13 +15,15 @@ class Item {
         }
     }
 
+    //adds item to inventory, returns true if the inventory isn't full
     addToInventory() {
         for(let slot of inventory) {
             if(!slot.hasItem) {
                 slot.add(this);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     checkInteraction() {
