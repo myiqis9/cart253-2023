@@ -11,7 +11,7 @@ let start; //setup class
 let manager = `title`; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
-let soundFile, reverb, noise; //bgm
+let bgm, reverb, noise; //bgm
 
 let canClick = true; //can player interact with things
 let timeout; //settimeout
@@ -25,7 +25,7 @@ let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12; //all scenes
 let safe, hand; //unique puzzles - see Start.js
 
 
-let locks = []; //array of safe numbers - combination: 3179
+let locks = []; //array of safe numbers - combination: 3719
 let buttons = []; //array of the buttons on the radio
 let keyslots = []; //array of key slots on the door - blue, yellow, red, green
 let arrows = []; //array of arrows: 0 left, 1 right, 2 down
@@ -33,19 +33,21 @@ let arrows = []; //array of arrows: 0 left, 1 right, 2 down
 //loading images
 let images = {};
 let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`, 
-    `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, //items
+    `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, 
+    `ideermouth`, `ihand`, //items
     `door1`, `cupboard1`, `painting1`, `painting2`, //room 1
     `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
     `deertaxidermy`, `radiodrawer1`, //room 3
-    `safe`, //room 4
+    `safe1`, `window1`, //room 4
     `door2`, `redin`, `bluein`, `yellowin`, `greenin`, //zoom door
-    `cupboard2`, `goldchest1`, `goldchest2`, `knife`, //zoom cupboard
-    `statue3`, `placedhand`, //zoom statue
-    `deer`, `deermouth`, `emptycube`, //zoom deer
+    `cupboard2`, `goldchest1`, `goldchest2`, `redkey`, `knife`, //zoom cupboard
+    `statue3`, `placedhand`, `blood1`, `blood2`, `blood3`, //zoom statue
+    `deer`, `deermouth2`, `emptycube`, //zoom deer
     `radiodrawer2`, `reddrawer`, `reddraweropen`, `bluedrawer`, `bluedraweropen`, //zoom radio
-    `radio`, `radioopen`, `buttonactive`, `buttoninactive`, //zoom radio 2
-    //zoom window
-    //zoom safe
+    `deermouth1`, `bluecube`, `hand`, //zoom radio 2
+    `radio`, `radioopen`, `goldkey`, `buttonactive`, `buttoninactive`, //zoom radio 3
+    `safe2`, `safeopen`, `yellowcube`, //zoom safe
+    `window2`, `deadbird`, `bluekey`, //zoom window
     `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
 
 
@@ -55,7 +57,7 @@ function preload() {
         images[img] = loadImage(`assets/images/${img}.png`);
         //thanks to Pippin for helping me with this!
     }
-    soundFile = loadSound('assets/sounds/satie.mp3');
+    bgm = loadSound('assets/sounds/satie.mp3');
 }
 
 
@@ -181,7 +183,7 @@ function ending() {
 }
 
 function mousePressed() {
-    if(manager === `title` && soundFile.isLoaded()) { //make sure sound finished loading first!
+    if(manager === `title` && bgm.isLoaded()) { //make sure sound finished loading first!
         manager = `game`;
         start.playBGM();
     }

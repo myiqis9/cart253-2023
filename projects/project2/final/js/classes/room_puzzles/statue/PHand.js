@@ -5,8 +5,8 @@ class PHand extends Puzzle {
         super(name, x, y, w, h, shape, img);
 
         this.itemInteracted = false; //has hand been placed?
-        this.counter = 0; //interval counter
-        this.bloodpour = null; //setinterval
+        this.interval = null; //setinterval
+        this.count = 0; //interval counter
         
         //these are all images that will be cached for the statue
         this.blood1 = images.blood1;
@@ -18,24 +18,27 @@ class PHand extends Puzzle {
         if(this.itemInteracted) {
             //start interval for the blood to pour
             canClick = false;
-            this.bloodpour = setInterval(blood, 1500);
+            this.interval = setInterval(this.bloodpour, 1500);
         }
     }
 
-    blood() {
-        //every tick of the counter, add next image from the animation
-        if(counter === 1) image(this.blood1, null, null, null, null);
-        if(counter === 2) image(this.blood2, null, null, null, null);
-        if(counter === 3) {
-            let blood = new PBlood(); //TD
+    bloodpour() {
+        this.count++;
+        print(this.count);
+
+        if(this.count === 3) {
+            let blood = new PBlood('blood', this.x, this.y, 167, 366, 'rect', images.blood3);
             activeScene.puzzleArray.push(blood);
             canClick = true;
             clearInterval(this.bloodpour);
         }
-        counter++;
     }
 
     display() {
+        //every tick of the counter, add next image from the animation
+        if(this.count === 1) image(this.blood1, this.x, this.y, 83, 122);
+        if(this.count === 2) image(this.blood2, this.x, this.y, 92, 216);
+
         //only display hand once its added
         if(this.itemInteracted) image(this.img, this.x, this.y, this.width, this.height);
     }

@@ -81,7 +81,7 @@ class Start {
         //zoom deer
         let sc8Array = [];
         let deer = new Puzzle('deer', width/2, 257, 596, 511, 'rect', images.deer);
-        let deermouth = new PDeerMouth('deermouth', width/2-23, height/2+4, 150, 111, 'round', images.deermouth);
+        let deermouth = new PDeerMouth('deermouth', width/2-23, height/2+4, 150, 111, 'round', images.deermouth2);
         sc8Array.push(deer, deermouth);
 
         //zoom radio
@@ -108,8 +108,8 @@ class Start {
     
     createLocks() {
         let lock1 = new Lock(3, width/2-50, height/2+10);
-        let lock2 = new Lock(1, width/2+25, height/2+10);
-        let lock3 = new Lock(7, width/2+100, height/2+10);
+        let lock2 = new Lock(7, width/2+25, height/2+10);
+        let lock3 = new Lock(1, width/2+100, height/2+10);
         let lock4 = new Lock(9, width/2+175, height/2+10);
         locks.push(lock1, lock2, lock3, lock4);
     }
@@ -127,10 +127,10 @@ class Start {
         reverb = new p5.Reverb();
         noise = new p5.Noise('brown');
         
-        soundFile.disconnect(); // so we'll only hear reverb...
+        bgm.disconnect(); // so we'll only hear reverb...
       
         //connect soundFile to reverb, reverbTime, decayRate
-        reverb.process(soundFile, 7, 20);
+        reverb.process(bgm, 7, 20);
         this.setSound(1);
     }
 
@@ -142,7 +142,7 @@ class Start {
     }
 
     playBGM() {
-        soundFile.play();
+        bgm.play();
         noise.start();
     }
 }

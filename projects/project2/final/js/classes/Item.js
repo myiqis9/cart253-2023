@@ -30,7 +30,7 @@ class Item {
         for(let int of activeScene.puzzleArray) {
             let d = dist(int.x, int.y, this.x, this.y);
         
-            if (d < this.size / 2 && this.interactsWith === int.name) {
+            if (d < int.size / 2 && this.interactsWith === int.name) {
                 int.itemInteracted = true;
                 int.interact();
                 this.interacted();
