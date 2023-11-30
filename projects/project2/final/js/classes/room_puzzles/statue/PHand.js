@@ -4,7 +4,8 @@ class PHand extends Puzzle {
     constructor(name, x, y, w, h, shape, img) {
         super(name, x, y, w, h, shape, img);
 
-        this.itemInteracted = false; //has hand been placed?
+        this.itemInteracted = true; //has hand been placed?
+        this.displayHand = false;
         this.interval = null; //setinterval
         this.count = 0; //interval counter
         
@@ -18,7 +19,8 @@ class PHand extends Puzzle {
         if(this.itemInteracted) {
             //start interval for the blood to pour
             canClick = false;
-            this.interval = setInterval(this.bloodpour, 1500);
+            this.displayHand = true;
+            this.interval = setInterval(this.bloodpour.bind(this), 1500)
         }
     }
 
@@ -27,19 +29,20 @@ class PHand extends Puzzle {
         print(this.count);
 
         if(this.count === 3) {
-            let blood = new PBlood('blood', this.x, this.y, 167, 366, 'rect', images.blood3);
+            let blood = new PBlood('blood', 290, height/2-62, 169, 369, 'rect', images.blood3);
             activeScene.puzzleArray.push(blood);
             canClick = true;
-            clearInterval(this.bloodpour);
+            this.itemInteracted = false;
+            clearInterval(this.interval);
         }
     }
 
     display() {
-        //every tick of the counter, add next image from the animation
-        if(this.count === 1) image(this.blood1, this.x, this.y, 83, 122);
-        if(this.count === 2) image(this.blood2, this.x, this.y, 92, 216);
-
         //only display hand once its added
-        if(this.itemInteracted) image(this.img, this.x, this.y, this.width, this.height);
+        if(this.displayHand) image(this.img, this.x, this.y, this.width, this.height);
+
+        //every tick of the counter, add next image from the animation
+        if(this.count === 1) image(this.blood1, 290, height/2-62, 169, 369);
+        if(this.count === 2) image(this.blood2, 290, height/2-62, 169, 369);
     }
 }

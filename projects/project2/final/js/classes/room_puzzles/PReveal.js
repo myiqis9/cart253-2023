@@ -4,7 +4,7 @@ class PReveal extends Puzzle {
     constructor(name, x, y, w, h, shape, img, imgInteracted) {
         super(name, x, y, w, h, shape, img);
         this.imgInteracted = imgInteracted;
-        this.itemInteracted = false;
+        this.itemInteracted = true;
     }
 
     interact() {

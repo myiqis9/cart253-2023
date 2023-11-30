@@ -53,7 +53,7 @@ class Start {
     
         //room 4
         let sc4Array = [];
-        safe = new PSafe('safe', width/2-50, height/2, 120, 120, 'rect', images.safe, images.safe);
+        safe = new PSafe('safe', width/2-50, height/2, 120, 120, 'rect', images.safe1);
         sc4Array.push(safe);
 
         //zoom door
@@ -103,7 +103,14 @@ class Start {
 
         let sc11Array = [];
 
-        this.p.push(sc1Array, sc2Array, sc3Array, sc4Array, sc5Array, sc6Array, sc7Array, sc8Array, sc9Array, sc10Array, sc11Array);
+        let sc12Array = [];
+
+        this.p.push(sc1Array, sc2Array, sc3Array, sc4Array, sc5Array, sc6Array, sc7Array, sc8Array, sc9Array, sc10Array, sc11Array, sc12Array);
+        
+        //window1 219x368
+        //bird 174x115
+        //safe 123x124
+        //yellow cube 80x92
     }
     
     createLocks() {

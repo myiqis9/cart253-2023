@@ -7,7 +7,7 @@ class PBlood extends Puzzle {
 
     interact() {
         //turns the empty cube red when interacted with!
-        let redCube = new Item('redcube', 'doorkey3', images.iredcube);
+        let redCube = new Item('redcube', 'doorkey', images.iredcube);
         redCube.addToInventory();
     }
 
