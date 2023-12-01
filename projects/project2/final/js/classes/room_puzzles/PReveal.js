@@ -4,7 +4,7 @@ class PReveal extends Puzzle {
     constructor(name, x, y, w, h, shape, img, imgInteracted) {
         super(name, x, y, w, h, shape, img);
         this.imgInteracted = imgInteracted;
-        this.itemInteracted = true;
+        this.itemInteracted = false;
     }
 
     interact() {
@@ -34,6 +34,9 @@ class PReveal extends Puzzle {
                 let hand = new PItem('hand', this.x-27, this.y+84, 207, 75, 'rect', images.hand);
                 activeScene.puzzleArray.push(hand);
                 break;
+            case 'deadbird':
+                let bluekey = new PItem('bluekey', this.x-67, this.y+34, 43, 43, 'rect', images.bluekey);
+                activeScene.puzzleArray.push(bluekey);
         }
         //set itemInteracted false so this doesn't repeat
         this.itemInteracted = false;

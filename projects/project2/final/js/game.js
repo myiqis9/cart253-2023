@@ -15,6 +15,8 @@ let bgm, reverb, noise; //bgm
 
 let canClick = true; //can player interact with things
 let timeout; //settimeout
+let interval; //setinterval
+let counter = 0; //counter for setinterval
 
 let inventory = []; //player inventory
 let inventorySize = 5;
@@ -24,11 +26,12 @@ let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-11 are zoom-ins 
 let sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12; //all scenes
 let safe, hand; //unique puzzles - see Start.js
 
-
 let locks = []; //array of safe numbers - combination: 3719
 let buttons = []; //array of the buttons on the radio
 let keyslots = []; //array of key slots on the door - blue, yellow, red, green
 let arrows = []; //array of arrows: 0 left, 1 right, 2 down
+
+let blacker, blackerita, lcd; //fonts
 
 //loading images
 let images = {};
@@ -47,7 +50,7 @@ let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`,
     `deermouth1`, `bluecube`, `hand`, //zoom radio 2
     `radio`, `radioopen`, `goldkey`, `buttonactive`, `buttoninactive`, //zoom radio 3
     `safe2`, `safeopen`, `yellowcube`, //zoom safe
-    `window2`, `deadbird`, `bluekey`, //zoom window
+    `window2`, `deadbird1`, `deadbird2`, `bluekey`, //zoom window
     `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
 
 
@@ -58,6 +61,9 @@ function preload() {
         //thanks to Pippin for helping me with this!
     }
     bgm = loadSound('assets/sounds/satie.mp3');
+    blacker = loadFont('assets/fonts/blacker.ttf');
+    blackerita = loadFont('assets/fonts/blackeritalic.ttf');
+    lcd = loadFont('assets/fonts/pixellcd.ttf');
 }
 
 
@@ -76,30 +82,28 @@ function setup() {
 function draw() {
     background(0);
     switch(manager) {
-        case `title`: title();
+        case 'title': title();
         break;
-        case `opening`: opening();
+        case 'opening': opening();
         break;
-        case `game`: game();
+        case 'game': game();
         break;
-        case `ending`: ending();
+        case 'ending': ending();
     }
 }
 
 function title() {
-    //insert title here
     push();
     fill(255);
-    textSize(32);
+    textSize(42);
+    textFont(blackerita);
     textAlign(CENTER, CENTER);
-    text(`insert title here`, width/2, height/2);
+    text(`escape the room...`, width/2, height/2);
     pop();
 }
 
 function opening() {
-    //might have an opening animation? setting? tutorial? 
-    //you wake up in a strange room and it's dark...
-    //shadow passes through the window, suddenly lights flicker open?
+    
 }
 
 function game() {
@@ -178,8 +182,7 @@ function displayInventoryMenu() {
 }
 
 function ending() {
-    //I have no idea what the ending will be like. it's an escape room puzzle, so it's pretty linear... 
-    //maybe have a way to get a bad ending early?
+    print('YOU WON!!!!!!!!!!!!!');
 }
 
 function mousePressed() {

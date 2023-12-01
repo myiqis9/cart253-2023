@@ -2,8 +2,8 @@ class PDeerMouth extends Puzzle {
     //separate class because it has a little timer before revealing the cube
     //interact reveals item then creates timer to reveal another item, similar to statue hand
 
-    constructor(name, x, y, w, h, shape, img) {
-        super(name, x, y, w, h, shape, img);
+    constructor(x, y, w, h, shape, img) {
+        super('deermouth', x, y, w, h, shape, img);
 
         this.itemInteracted = false;
         this.timeout = null; //settimeout

@@ -3,8 +3,8 @@ class PDoorKey extends Puzzle {
     //it basically can hold an item that you can take back by clicking on it again
     //it also needs a target item to get to final combination right
 
-    constructor(name, x, y, w, h, shape, img, target) {
-        super(name, x, y, w, h, shape, img);
+    constructor(x, y, w, h, shape, img, target) {
+        super('doorkey', x, y, w, h, shape, img);
         this.target = target;
         this.hasTarget = false;
         this.itemInteracted = false;
@@ -13,10 +13,19 @@ class PDoorKey extends Puzzle {
 
     interact() {
         if(this.itemInteracted) {
-            this.item = activeItem;
+            this.insertCube();
             this.itemInteracted = false;
             this.checkDoorCombination();
         }
+    }
+
+    insertCube() {
+        if(this.item != null) {
+            let added;
+            added = this.item.addToInventory();
+            if(added) this.item = activeItem;
+        }
+        else this.item = activeItem;
     }
 
     checkMousePressed() {
@@ -31,13 +40,12 @@ class PDoorKey extends Puzzle {
         let solved = true;
 
         for(let key of keyslots) {
-            if(key.item === null || key.item.name !== this.target) {
+            if(key.item == null || key.item.name !== key.target) {
                 solved = false;
                 break;
             }
         }
-
-        if(solved) ending(); //GAME WON WOO
+        if(solved) manager = 'ending';
     }
 
     display() {

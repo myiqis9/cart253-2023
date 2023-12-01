@@ -4,11 +4,11 @@ class Lock {
         this.x = x;
         this.y = y;
         this.num = 0;
-        this.size = 70;
+        this.size = 45;
 
         //values for the arrows that move values up or down
-        this.arrowDownY = this.y+54;
-        this.arrowUpY = this.y-54;
+        this.arrowDownY = this.y+40;
+        this.arrowUpY = this.y-40;
         this.arrowSize = 50;
         this.direction = null; 
     }
@@ -38,6 +38,7 @@ class Lock {
         this.checkLockCombination();
     }
 
+    //correct combination: 3719
     checkLockCombination() {
         let solved = true;
     
@@ -60,14 +61,15 @@ class Lock {
         push();
         fill(255);
         noStroke();
-        rect(this.x, this.y, this.size-10, this.size);
+        rect(this.x, this.y, this.size-7, this.size, 5);
 
-        triangle(this.x-15, this.arrowDownY-14, this.x, this.arrowDownY+14, this.x+15, this.arrowDownY-14);
-        triangle(this.x-15, this.arrowUpY+14, this.x, this.arrowUpY-14, this.x+15, this.arrowUpY+14);
+        triangle(this.x-12, this.arrowDownY-10, this.x, this.arrowDownY+10, this.x+12, this.arrowDownY-10);
+        triangle(this.x-12, this.arrowUpY+10, this.x, this.arrowUpY-10, this.x+12, this.arrowUpY+10);
 
         fill(0);
-        textSize(60);
-        text(this.num, this.x, this.y);
+        textSize(22);
+        textFont(lcd);
+        text(this.num, this.x+2, this.y+8);
         pop();
     }
 }

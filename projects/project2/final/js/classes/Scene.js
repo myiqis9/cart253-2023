@@ -29,17 +29,9 @@ class Scene {
                 arrows[1].active = true;
                 arrows[2].active = false;
                 break;
-            case 5: case 6: case 7: case 8: case 11: case 12:
+            case 5: case 6: case 7: case 8: case 9: case 11: case 12:
                 for(let puzzle of this.puzzleArray) puzzle.display();
                 
-                arrows[0].active = false;
-                arrows[1].active = false;
-                arrows[2].active = true;
-                break;
-            case 9: 
-                for(let puzzle of this.puzzleArray) puzzle.display();
-                for(let button of buttons) button.display();
-
                 arrows[0].active = false;
                 arrows[1].active = false;
                 arrows[2].active = true;

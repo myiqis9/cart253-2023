@@ -11,7 +11,7 @@ class Start {
         arrows.push(leftArrow, rightArrow, downArrow);
     }
     
-    //create all the scenes: their ID, their name, 
+    //create all the scenes: their ID, their array of puzzle objects, 
     createScenes() {
         sc1 = new Scene(1, this.p[0], null); //room 1: door, cupboard, painting
         sc2 = new Scene(2, this.p[1], null); //room 2: statue, taxidermy
@@ -29,6 +29,7 @@ class Start {
         activeScene = sc1;
     }
     
+    //create every single thing that extends from class "Puzzle" for each respective scene
     createPuzzles() {
         //room 1
         let sc1Array = [];
@@ -39,7 +40,7 @@ class Start {
 
         //room 2
         let sc2Array = [];
-        let statue = new PStatue('statue', 180, height/2-62, 324, 467, 'rect', images.statue1, images.statue2, images.statue3);
+        let statue = new PStatue(180, height/2-62, 324, 467, 'rect', images.statue1, images.statue2, images.statue3);
         let greencube = new PItem('greencube', 258, height/2+123, 35, 44, 'rect', images.greencube);
         let taxidermy = new Puzzle('taxidermy', width-145, height/2-112, 153, 270, 'rect', images.taxidermy);
         let paper = new PItem('paper', width-68, 89, 45, 57, 'round', images.paper);
@@ -53,16 +54,17 @@ class Start {
     
         //room 4
         let sc4Array = [];
-        safe = new PSafe('safe', width/2-50, height/2, 120, 120, 'rect', images.safe1);
-        sc4Array.push(safe);
+        safe = new PSafe(180, height/2+72, 123, 124, 'rect', images.safe1);
+        let window = new PZoom('window', width-180, height/2-75, 219, 368, 'rect', images.window1);
+        sc4Array.push(safe, window);
 
         //zoom door
         let sc5Array = [];
         let door2 = new Puzzle('door2', 300, 257, 600, 511, 'rect', images.door2);
-        let key1 = new PDoorKey('doorkey', 171, 199, 82, 82, 'rect', null, 'bluecube');
-        let key2 = new PDoorKey('doorkey', 261, 199, 82, 82, 'rect', null, 'bluecube');
-        let key3 = new PDoorKey('doorkey', 350, 199, 82, 82, 'rect', null, 'bluecube');
-        let key4 = new PDoorKey('doorkey', 440, 199, 82, 82, 'rect', null, 'bluecube');
+        let key1 = new PDoorKey(171, 199, 82, 82, 'rect', null, 'bluecube');
+        let key2 = new PDoorKey(261, 199, 82, 82, 'rect', null, 'yellowcube');
+        let key3 = new PDoorKey(350, 199, 82, 82, 'rect', null, 'redcube');
+        let key4 = new PDoorKey(440, 199, 82, 82, 'rect', null, 'greencube');
         keyslots.push(key1, key2, key3, key4);
         sc5Array.push(door2, key1, key2, key3, key4);
 
@@ -75,13 +77,13 @@ class Start {
 
         //zoom statue
         let sc7Array = [];
-        hand = new PHand('hand', width/2+64, height/2-32, 156, 332, 'rect', images.placedhand);
+        hand = new PHand(width/2+64, height/2-32, 156, 332, 'rect', images.placedhand);
         sc7Array.push(statue, hand);
 
         //zoom deer
         let sc8Array = [];
         let deer = new Puzzle('deer', width/2, 257, 596, 511, 'rect', images.deer);
-        let deermouth = new PDeerMouth('deermouth', width/2-23, height/2+4, 150, 111, 'round', images.deermouth2);
+        let deermouth = new PDeerMouth(width/2-23, height/2+4, 150, 111, 'round', images.deermouth2);
         sc8Array.push(deer, deermouth);
 
         //zoom radio
@@ -100,27 +102,35 @@ class Start {
         sc9Array.push(radiodrawer2, radio, reddrawer, bluedrawer, btn1, btn2, btn3, btn4, btn5);
 
         let sc10Array = [];
+        let safebg = new Puzzle('safe', width/2, height/2-45, 521, 511, 'rect', images.safe2);
+        sc10Array.push(safebg);
 
         let sc11Array = [];
+        let safeopen = new Puzzle('safe', width/2-20, height/2-45, 561, 511, 'rect', images.safeopen);
+        let yellowcube = new PItem('yellowcube', width/2+78, height-174, 80, 92, 'rect', images.yellowcube);
+        sc11Array.push(safeopen, yellowcube);
 
         let sc12Array = [];
+        let window2 = new Puzzle('window', width/2-34, height/2-46, 532, 509, 'rect', images.window2);
+        let deadbird = new PReveal('deadbird', width/2+102, height/2+60, 266, 243, 'rect', images.deadbird1, images.deadbird2);
+        sc12Array.push(window2, deadbird);
 
         this.p.push(sc1Array, sc2Array, sc3Array, sc4Array, sc5Array, sc6Array, sc7Array, sc8Array, sc9Array, sc10Array, sc11Array, sc12Array);
         
         //window1 219x368
         //bird 174x115
-        //safe 123x124
-        //yellow cube 80x92
     }
     
+    //create the lock numbers for the safe
     createLocks() {
-        let lock1 = new Lock(3, width/2-50, height/2+10);
-        let lock2 = new Lock(7, width/2+25, height/2+10);
-        let lock3 = new Lock(1, width/2+100, height/2+10);
-        let lock4 = new Lock(9, width/2+175, height/2+10);
+        let lock1 = new Lock(3, width/2-135, height/2-26);
+        let lock2 = new Lock(7, width/2-75, height/2-26);
+        let lock3 = new Lock(1, width/2-15, height/2-26);
+        let lock4 = new Lock(9, width/2+45, height/2-26);
         locks.push(lock1, lock2, lock3, lock4);
     }
     
+    //create player inventory
     createInventory() {
         let slotX = 150;
         for(let i = 0; i < inventorySize; i++) {
@@ -130,6 +140,7 @@ class Start {
         }
     }
 
+    //background music - reverbrating Gnossiennes by Erik Satie, with brown noise for radio static effect
     createBGM() {
         reverb = new p5.Reverb();
         noise = new p5.Noise('brown');
@@ -141,6 +152,7 @@ class Start {
         this.setSound(1);
     }
 
+    //this sets how loud the background music is. to be used when switching from scene to scene
     setSound(drywet) {
         //strength of reverb (this is what will be modified!)
         reverb.amp(1.4-drywet);
@@ -148,6 +160,7 @@ class Start {
         noise.amp(0.042-(drywet/20));
     }
 
+    //play bgm when game starts
     playBGM() {
         bgm.play();
         noise.start();
