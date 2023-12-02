@@ -8,15 +8,18 @@
 "use strict";
 
 let start; //setup class
-let manager = `title`; //game manager
+let stateManager; //game manager
 let activeScene; //active scene
 let heldItem = null; //item being dragged
+
 let bgm, reverb, noise; //bgm
+let images = {}; //images for everything - see Start.js
 
 let canClick = true; //can player interact with things
 let timeout; //settimeout
 let interval; //setinterval
 let counter = 0; //counter for setinterval
+let alpha = 255; //for fade ins/outs
 
 let inventory = []; //player inventory
 let inventorySize = 5;
@@ -31,45 +34,20 @@ let buttons = []; //array of the buttons on the radio
 let keyslots = []; //array of key slots on the door - blue, yellow, red, green
 let arrows = []; //array of arrows: 0 left, 1 right, 2 down
 
-let blacker, blackerita, lcd; //fonts
-
-//loading images
-let images = {};
-let imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`, 
-    `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, 
-    `ideermouth`, `ihand`, //items
-    `door1`, `cupboard1`, `painting1`, `painting2`, //room 1
-    `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
-    `deertaxidermy`, `radiodrawer1`, //room 3
-    `safe1`, `window1`, //room 4
-    `door2`, `redin`, `bluein`, `yellowin`, `greenin`, //zoom door
-    `cupboard2`, `goldchest1`, `goldchest2`, `redkey`, `knife`, //zoom cupboard
-    `statue3`, `placedhand`, `blood1`, `blood2`, `blood3`, //zoom statue
-    `deer`, `deermouth2`, `emptycube`, //zoom deer
-    `radiodrawer2`, `reddrawer`, `reddraweropen`, `bluedrawer`, `bluedraweropen`, //zoom radio
-    `deermouth1`, `bluecube`, `hand`, //zoom radio 2
-    `radio`, `radioopen`, `goldkey`, `buttonactive`, `buttoninactive`, //zoom radio 3
-    `safe2`, `safeopen`, `yellowcube`, //zoom safe
-    `window2`, `deadbird1`, `deadbird2`, `bluekey`, //zoom window
-    `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
+let noto, notoita, lcd; //fonts
 
 
+//p5js preload
 function preload() {
-    //preload all images
-    for(let img of imgNames) {
-        images[img] = loadImage(`assets/images/${img}.png`);
-        //thanks to Pippin for helping me with this!
-    }
-    bgm = loadSound('assets/sounds/satie.mp3');
-    blacker = loadFont('assets/fonts/blacker.ttf');
-    blackerita = loadFont('assets/fonts/blackeritalic.ttf');
-    lcd = loadFont('assets/fonts/pixellcd.ttf');
+    start = new Start();
+    stateManager = new GameState();
+    start.preload();
 }
 
 
+//p5js setup
 function setup() {
     createCanvas(600, 600);
-    start = new Start();
     start.setupArrows();
     start.createPuzzles();
     start.createLocks();
@@ -79,38 +57,10 @@ function setup() {
 }
 
 
+//p5js draw
 function draw() {
     background(0);
-    switch(manager) {
-        case 'title': title();
-        break;
-        case 'opening': opening();
-        break;
-        case 'game': game();
-        break;
-        case 'ending': ending();
-    }
-}
-
-function title() {
-    push();
-    fill(255);
-    textSize(42);
-    textFont(blackerita);
-    textAlign(CENTER, CENTER);
-    text(`escape the room...`, width/2, height/2);
-    pop();
-}
-
-function opening() {
-    
-}
-
-function game() {
-    if(activeItem !== null) activeItem.checkInteraction();
-    checkHover();
-    checkDragging();
-    displayGame();
+    stateManager.checkState();
 }
 
 function checkDragging() {
@@ -150,47 +100,13 @@ function mouseIsInsideRect(obj) {
     else return false;
 }
 
-function displayGame() {
-    rectMode(CENTER);
-    imageMode(CENTER);
-    textAlign(CENTER, CENTER);
-
-    //display active scene and interactables
-    activeScene.display();
-
-    //display arrows
-    for(let arrow of arrows) if(arrow.active) arrow.display();
-
-    //inventory background
-    displayInventoryMenu();
-
-    //display inventory & player items (separately, otherwise items won't print on top of other slots when dragged1)
-    for(let slot of inventory) slot.display();
-    for(let slot of inventory) if(slot.hasItem) slot.item.display();
-}
-
-function displayInventoryMenu() {
-    push();
-    fill(255);
-    noStroke();
-    rect(width/2, height-40, 600, 96);
-    fill(0);
-    stroke(70, 20, 15);
-    strokeWeight(2);
-    rect(width/2, height-44, 390, 86);
-    pop();
-}
-
-function ending() {
-    print('YOU WON!!!!!!!!!!!!!');
-}
-
 function mousePressed() {
-    if(manager === `title` && bgm.isLoaded()) { //make sure sound finished loading first!
-        manager = `game`;
+    if(stateManager.state === 'title' && bgm.isLoaded()) { //make sure sound finished loading first!
+        interval = setInterval(cutscene, 300);
+        stateManager.state = 'opening';
         start.playBGM();
     }
-    else if(manager === 'game') {
+    else if(stateManager.state === 'game') {
         for(let arrow of arrows) arrow.checkMousePressed();
         for(let slot of inventory) slot.checkMousePressed();
         if(activeScene.id === 10) for(let lock of locks) lock.checkMousePressed();
@@ -209,3 +125,8 @@ function mousePressed() {
         canClick = true;
     }, 100);
   }
+
+  function cutscene() {
+    print(counter);
+    counter++;
+}

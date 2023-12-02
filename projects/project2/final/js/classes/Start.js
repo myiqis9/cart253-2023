@@ -2,6 +2,38 @@ class Start {
     constructor() {
         //array of all the puzzle arrays to implement them in the scene
         this.p = [];
+
+        //loading images
+        this.imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`, 
+        `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, 
+        `ideermouth`, `ihand`, //items
+        `door1`, `cupboard1`, `painting1`, `painting2`, //room 1
+        `statue1`, `statue2`, `greencube`, `taxidermy`, `paper`, //room 2
+        `deertaxidermy`, `radiodrawer1`, //room 3
+        `safe1`, `window1`, //room 4
+        `door2`, `redin`, `bluein`, `yellowin`, `greenin`, //zoom door
+        `cupboard2`, `goldchest1`, `goldchest2`, `redkey`, `knife`, //zoom cupboard
+        `statue3`, `placedhand`, `blood1`, `blood2`, `blood3`, //zoom statue
+        `deer`, `deermouth2`, `emptycube`, //zoom deer
+        `radiodrawer2`, `reddrawer`, `reddraweropen`, `bluedrawer`, `bluedraweropen`, //zoom radio
+        `deermouth1`, `bluecube`, `hand`, //zoom radio 2
+        `radio`, `radioopen`, `goldkey`, `buttonactive`, `buttoninactive`, //zoom radio 3
+        `safe2`, `safeopen`, `yellowcube`, //zoom safe
+        `window2`, `deadbird1`, `deadbird2`, `bluekey`, //zoom window
+        `arrowDown`, `arrowLeft`, `arrowRight`]; //arrows
+    }
+
+    preload() {
+        //preload all images
+        for(let img of this.imgNames) {
+            images[img] = loadImage(`assets/images/${img}.png`);
+            //thanks to Pippin for helping me with this!
+        }
+
+        bgm = loadSound('assets/sounds/satie.mp3');
+        noto = loadFont('assets/fonts/NotoSerif.ttf');
+        notoita = loadFont('assets/fonts/NotoSerif_Italic.ttf');
+        lcd = loadFont('assets/fonts/pixellcd.ttf');
     }
 
     setupArrows() {

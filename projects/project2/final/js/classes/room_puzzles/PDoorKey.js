@@ -45,7 +45,9 @@ class PDoorKey extends Puzzle {
                 break;
             }
         }
-        if(solved) manager = 'ending';
+        if(solved) {
+            manager = 'ending';
+        }
     }
 
     display() {

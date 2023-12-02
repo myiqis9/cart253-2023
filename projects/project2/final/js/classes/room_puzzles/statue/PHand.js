@@ -31,6 +31,7 @@ class PHand extends Puzzle {
             activeScene.puzzleArray.push(blood);
             canClick = true;
             this.itemInteracted = false;
+            counter = 0;
             clearInterval(interval);
         }
     }
