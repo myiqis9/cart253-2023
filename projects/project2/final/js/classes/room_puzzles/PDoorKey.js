@@ -46,7 +46,9 @@ class PDoorKey extends Puzzle {
             }
         }
         if(solved) {
-            manager = 'ending';
+            canClick = false;
+            interval = setInterval(cutscene, 300);
+            stateManager.state = 'ending';
         }
     }
 

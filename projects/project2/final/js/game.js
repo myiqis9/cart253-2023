@@ -102,6 +102,7 @@ function mouseIsInsideRect(obj) {
 
 function mousePressed() {
     if(stateManager.state === 'title' && bgm.isLoaded()) { //make sure sound finished loading first!
+        canClick = false;
         interval = setInterval(cutscene, 300);
         stateManager.state = 'opening';
         start.playBGM();
@@ -113,6 +114,7 @@ function mousePressed() {
         //iterate through the array backwards, since the items displayed on top get interacted with first!
         for(let i = activeScene.puzzleArray.length - 1; i >= 0; i--) activeScene.puzzleArray[i].checkMousePressed();
     }
+    else if(stateManager.state === 'ending' && canClick) location.reload();
   }
 
   function mouseReleased() {

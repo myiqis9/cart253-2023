@@ -31,13 +31,22 @@ class GameState {
     }
 
     opening() {
-        rectMode(CENTER);
-        imageMode(CENTER);
+        //display game (when game fades in)
+        this.displayGame();
+
+        //set alpha
+        if(counter == 16) alpha = 200;
+        if(counter == 17) alpha = 125;
+        if(counter == 18) alpha = 65;
+        if(counter == 19) {
+            alpha = 0;
+            canClick = true;
+            this.state = 'game';
+            counter = 0;
+            clearInterval(interval);
+        }
     
-        canClick = false;
-        activeScene.display();
-        this.displayInventoryMenu();
-    
+        //display black background fade
         push();
         fill(0, 0, 0, alpha);
         noStroke();
@@ -52,11 +61,11 @@ class GameState {
     
         if(counter == 1 || counter == 15) fill(80);
         if(counter >= 2 && counter < 15) fill(255);
-        if(counter >= 1 && counter < 16) text('Where am I...?', width/2, height/2-100);
+        if(counter >= 1 && counter < 16) text('Where am I...?', width/2, height/2-110);
     
         if(counter == 5 || counter == 15) fill(80);
         if(counter >= 6 && counter < 15) fill(255);
-        if(counter >= 5 && counter < 16) text('What is this place?', width/2, height/2-30);
+        if(counter >= 5 && counter < 16) text('What is this place?', width/2, height/2-35);
     
         if(counter == 9 || counter == 15) fill(80);
         if(counter >= 10 && counter < 15) fill(255);
@@ -66,16 +75,6 @@ class GameState {
             text('And quickly...', width/2, height/2+110);
         }
         pop();
-    
-        if(counter == 16) alpha = 200;
-        if(counter == 17) alpha = 125;
-        if(counter == 18) alpha = 65;
-        if(counter == 19) {
-            canClick = true;
-            this.state = 'game';
-            counter = 0;
-            clearInterval(interval);
-        }
     }
 
     game() {
@@ -116,7 +115,51 @@ class GameState {
         pop();
     }
     
-    ending() {
-        print('YOU WON!!!!!!!!!!!!!');
+    ending() { 
+        //display game (while game is fading out)
+        this.displayGame();
+
+        //set background alpha
+        if(counter == 1) alpha = 65;
+        if(counter == 2) alpha = 125;
+        if(counter == 3) alpha = 200;
+        if(counter == 4) alpha = 255;
+    
+        //display black background fade
+        push();
+        fill(0, 0, 0, alpha);
+        noStroke();
+        rect(width/2, height/2, width, height);
+        pop();
+    
+        //counter text animation!
+        push();
+        textAlign(CENTER, CENTER);
+        textFont(noto);
+        textSize(28);
+    
+        if(counter == 5 || counter == 18) fill(80);
+        if(counter >= 6 && counter < 18) fill(255);
+        if(counter >= 5 && counter <= 18) {
+            text('As I opened the door,', width/2, height/2-110);
+            text('I felt a cool wind brush', width/2, height/2-75);
+            text('against my face.', width/2, height/2-40);
+        }
+    
+        if(counter == 9 || counter == 18) fill(80);
+        if(counter >= 10 && counter < 18) fill(255);
+        if(counter >= 9 && counter <= 18) text('And for a moment...', width/2, height/2+35);
+
+        if(counter == 13 || counter == 18) fill(80);
+        if(counter >= 14 && counter < 18) fill(255);
+        if(counter >= 13 && counter <= 18) text('... Dread turned to hope.', width/2, height/2+110);
+    
+        if(counter == 20) fill(80);
+        if(counter >= 21) fill(255);
+        if(counter >= 20) {
+            text('Click anywhere to restart.', width/2, height/2);
+            canClick = true;
+        }
+        pop();
     }
 }
