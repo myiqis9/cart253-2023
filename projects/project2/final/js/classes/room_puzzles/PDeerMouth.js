@@ -6,17 +6,18 @@ class PDeerMouth extends Puzzle {
         super('deermouth', x, y, w, h, shape, img);
 
         this.itemInteracted = false;
+        this.hasMouth = false;
         this.timeout = null; //settimeout
     }
 
     interact() {
-        if(this.itemInteracted) {
+        if(this.itemInteracted && !this.hasMouth) {
             canClick = false;
             //play sound?
             this.timeout = setTimeout(() => {
                 let emptycube = new PItem('emptycube', width/2-23, height/2+16, 84, 41, 'rect', images.emptycube)
                 activeScene.puzzleArray.push(emptycube);
-                this.itemInteracted = false;
+                this.hasMouth = true;
                 canClick = true;
             }, 1000);
         }
