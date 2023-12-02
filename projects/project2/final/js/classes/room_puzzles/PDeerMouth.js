@@ -16,6 +16,7 @@ class PDeerMouth extends Puzzle {
             this.timeout = setTimeout(() => {
                 let emptycube = new PItem('emptycube', width/2-23, height/2+16, 84, 41, 'rect', images.emptycube)
                 activeScene.puzzleArray.push(emptycube);
+                this.itemInteracted = false;
                 canClick = true;
             }, 1000);
         }
