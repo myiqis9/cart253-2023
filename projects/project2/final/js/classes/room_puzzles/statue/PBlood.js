@@ -3,11 +3,15 @@ class PBlood extends Puzzle {
 
     constructor(x, y, w, h, shape, img) {
         super('blood', x, y, w, h, shape, img);
+        this.itemInteracted = false; //has cube?
     }
 
     interact() {
-        //turns the empty cube red when interacted with!
-        let redCube = new Item('redcube', 'doorkey', images.iredcube);
-        redCube.addToInventory();
+        if(this.itemInteracted) {
+            //turns the empty cube red when interacted with!
+            let redCube = new Item('redcube', 'doorkey', images.iredcube);
+            redCube.addToInventory();
+            this.itemInteracted = true;
+        }
     }
 }
