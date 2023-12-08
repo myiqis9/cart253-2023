@@ -38,4 +38,7 @@ Most of all, what I spent most of my time doing was just cleaning my code and re
 What a fun project! This was a game that I dreamed of taking a shot at doing for a while, and it definitely won't be my last attempt. I've always been a big fan of point & click puzzle games and their endless potential. I'm very happy with my end result.
 
 ### Gameplay Video:
-<video src='https://youtu.be/M2GWq7fi2zw?si=2YMiGZyGCZ8bkldd' width=180/>
+[Here's a link in case the video doesn't work](https://www.youtube.com/watch?v=M2GWq7fi2zw)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=M2GWq7fi2zw
+" target="_blank"><img src="http://img.youtube.com/vi/M2GWq7fi2zw/0.jpg" 
+alt="showcase video" width="240" height="180" border="10" /></a>
