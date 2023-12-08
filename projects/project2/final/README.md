@@ -39,6 +39,7 @@ What a fun project! This was a game that I dreamed of taking a shot at doing for
 
 ### Gameplay Video:
 [Here's a link in case the video doesn't work](https://www.youtube.com/watch?v=M2GWq7fi2zw)
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=M2GWq7fi2zw
 " target="_blank"><img src="http://img.youtube.com/vi/M2GWq7fi2zw/0.jpg" 
 alt="showcase video" width="240" height="180" border="10" /></a>
