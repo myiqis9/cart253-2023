@@ -12,6 +12,7 @@ class PButton extends Puzzle {
         this.completed = false;
     }
 
+    //when clicking a button, it changes its own active state and the one to its left and right
     interact() {
         if(!this.completed) {
             this.switch();
@@ -21,11 +22,13 @@ class PButton extends Puzzle {
         }
     }
 
+    //switch states
     switch() {
         if(this.active) this.active = false;
         else this.active = true;
     }
 
+    //check all button states
     checkAllActive() {
         let solved = true;
     
@@ -37,7 +40,7 @@ class PButton extends Puzzle {
             }
         }
     
-        //if puzzle is solved, make it static and reveal key from radio
+        //if puzzle is solved, make buttons static and reveal key from radio
         if(solved) {
             for(let btn of buttons) btn.completed = true;
             for(let radio of activeScene.puzzleArray) {

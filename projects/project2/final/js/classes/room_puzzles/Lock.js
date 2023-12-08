@@ -13,6 +13,7 @@ class Lock {
         this.direction = null; 
     }
 
+    //hover checks distance for each arrow and if either is being hovered, return it as a string
     checkHover() {
         let dDown = dist(mouseX, mouseY, this.x, this.arrowDownY);
         let dUp = dist(mouseX, mouseY, this.x, this.arrowUpY);
@@ -21,6 +22,8 @@ class Lock {
         else return null;
     }
 
+    //this has a unique mouse press check because of two arrows. Get direction from checkHover, 
+    //if the player is hovering then change number
     checkMousePressed() {
         this.direction = this.checkHover();
         if(this.direction !== null && canClick) {
@@ -29,6 +32,7 @@ class Lock {
         }
     }
 
+    //checks direction returned by the hover to determine if player clicked up or down; changes number
     clicked() {
         if(this.direction === `up`) this.num++;
         else if(this.direction === `down`) this.num--;
@@ -63,9 +67,11 @@ class Lock {
         noStroke();
         rect(this.x, this.y, this.size-7, this.size, 5);
 
+        //arrows
         triangle(this.x-12, this.arrowDownY-10, this.x, this.arrowDownY+10, this.x+12, this.arrowDownY-10);
         triangle(this.x-12, this.arrowUpY+10, this.x, this.arrowUpY-10, this.x+12, this.arrowUpY+10);
 
+        //number
         fill(0);
         textSize(22);
         textFont(lcd);

@@ -3,6 +3,7 @@ class GameState {
         this.state = 'title';
     }
 
+    //check game state - this gets called in draw()
     checkState() {
         switch(this.state) {
             case 'title': this.title();
@@ -15,6 +16,7 @@ class GameState {
         }
     }
 
+    //title screen
     title() {
         push();
         fill(255);
@@ -30,8 +32,9 @@ class GameState {
         pop();
     }
 
+    //opening cutscene - cutscene() will be played in interval as this happens, setting the counter
     opening() {
-        //display game (when game fades in)
+        //display game (to be seen when game fades in)
         this.displayGame();
 
         //set alpha
@@ -59,6 +62,7 @@ class GameState {
         textFont(noto);
         textSize(28);
     
+        //sets text color to be 'fading in' one counter before fully displaying
         if(counter == 1 || counter == 15) fill(80);
         if(counter >= 2 && counter < 15) fill(255);
         if(counter >= 1 && counter < 16) text('Where am I...?', width/2, height/2-110);
@@ -115,8 +119,9 @@ class GameState {
         pop();
     }
     
+    //ending cutscene - cutscene() will be played in interval as this happens, setting the counter
     ending() { 
-        //display game (while game is fading out)
+        //display game (to be seen while game is fading out)
         this.displayGame();
 
         //set background alpha
@@ -138,6 +143,7 @@ class GameState {
         textFont(noto);
         textSize(28);
     
+        //sets text color to be 'fading in' one counter before fully displaying
         if(counter == 5 || counter == 18) fill(80);
         if(counter >= 6 && counter < 18) fill(255);
         if(counter >= 5 && counter <= 18) {

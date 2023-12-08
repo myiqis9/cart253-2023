@@ -4,7 +4,7 @@ class PReveal extends Puzzle {
     constructor(name, x, y, w, h, shape, img, imgInteracted) {
         super(name, x, y, w, h, shape, img);
         this.imgInteracted = imgInteracted;
-        this.itemInteracted = false;
+        this.itemInteracted = false; //only set true when item interacts - so clicking does nothing
     }
 
     interact() {
@@ -14,8 +14,8 @@ class PReveal extends Puzzle {
         } 
     }
 
+    //depending on what it is, add appropriate hidden object to current scene
     revealItem() {
-        //depending on what it is, add appropriate hidden object to current scene
         switch(this.name) {
             case 'goldchest':
                 let redkey = new PItem('redkey', width/2+10, height/2+130, 70, 26, 'rect', images.redkey);

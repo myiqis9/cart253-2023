@@ -7,10 +7,13 @@ class PStatue extends Puzzle {
         this.img3 = img3;
     }
 
+    //zoom to the other statue if in the main room
     interact() {
         if(activeScene.id === 2) activeScene = sc7;
     }
 
+    //if room 2 display statue depending on if the blood spilled or not
+    //if in zoom display zoom statue
     display() {
         if(activeScene.id === 2) {
             if(hand.displayHand) image(this.img2, this.x, this.y, this.width, this.height);

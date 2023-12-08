@@ -5,8 +5,8 @@ class PZoom extends Puzzle {
         super(name, x, y, w, h, shape, img);
     }
 
+    //sets activeScene to what scene the object zooms to
     interact() {
-        //zoomDoor, zoomCupboard, zoomStatue, zoomDeer, zoomRadio, zoomSafe, zoomSafeOpen, ZoomWindow
         switch(this.name) {
             case 'door':
                 activeScene = sc5;

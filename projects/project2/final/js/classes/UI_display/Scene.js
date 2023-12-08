@@ -12,7 +12,7 @@ class Scene {
 
         switch(this.id) {
             //display whatever is needed in the background && relevant arrow(s)
-            case 1: case 2: case 3: case 4:
+            case 1: case 2: case 3: case 4: //rooms
                 push();
                 fill(25);
                 stroke(10);
@@ -25,20 +25,22 @@ class Scene {
 
                 for(let puzzle of this.puzzleArray) puzzle.display(); //display all objects in scene
 
+                //can move left or right
                 arrows[0].active = true;
                 arrows[1].active = true;
                 arrows[2].active = false;
                 break;
-            case 5: case 6: case 7: case 8: case 9: case 11: case 12:
+            case 5: case 6: case 7: case 8: case 9: case 11: case 12: //zooms
                 for(let puzzle of this.puzzleArray) puzzle.display();
                 
+                //can only move down (to go back to main rooms)
                 arrows[0].active = false;
                 arrows[1].active = false;
                 arrows[2].active = true;
                 break;
-            case 10:
+            case 10: //safe (closed)
                 for(let puzzle of this.puzzleArray) puzzle.display();
-                for(let lock of locks) lock.display(); //locks must be displayed after puzzles
+                for(let lock of locks) lock.display(); //locks must be displayed after (on top of) puzzles
 
                 arrows[0].active = false;
                 arrows[1].active = false;

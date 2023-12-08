@@ -3,7 +3,12 @@
  * Viviana Ema Radu
  * 
  * Quick rundown of code workings:
- * - 
+ * - Start.js has all the setup() and preload() parts
+ * - GameState.js has all the draw() parts, cutscenes, and the current active state
+ * - Everything that checks mouse movement or clicking is left in here
+ * - UI_display holds general parts of the game always displayed: scenes, inventory, arrows
+ * - room_puzzles holds all the puzzle classes that will be displayed across each scene
+ * - the main class most of them extend from is Puzzle.js (which non-interactives default to)
  */
 "use strict";
 
@@ -22,7 +27,6 @@ let counter = 0; //counter for setinterval
 let alpha = 255; //for fade ins/outs
 
 let inventory = []; //player inventory
-let inventorySize = 5;
 let activeItem = null; //held item if player is currently holding one
 
 let scenes = []; //scenes in the game - 0-3 are 4 wall sides, 4-11 are zoom-ins - see Start.js

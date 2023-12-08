@@ -6,8 +6,8 @@ class PItem extends Puzzle {
         this.added = false;
     }
 
+    //depending on which object it is, create and add appropriate item to inventory
     interact() {
-        //depending on which object it is, create and add appropriate item to inventory
         print(`adding ${this.name} to inventory`);
         
         let newItem;

@@ -7,10 +7,11 @@ class PDoorKey extends Puzzle {
         super('doorkey', x, y, w, h, shape, img);
         this.target = target;
         this.hasTarget = false;
-        this.itemInteracted = false;
+        this.itemInteracted = false; //only set true when item interacts - clicking does nothing
         this.item = null;
     }
 
+    //
     interact() {
         if(this.itemInteracted) {
             this.insertCube();

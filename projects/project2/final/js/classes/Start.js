@@ -3,7 +3,7 @@ class Start {
         //array of all the puzzle arrays to implement them in the scene
         this.p = [];
 
-        //loading images
+        //all image names
         this.imgNames = [`iredkey`, `ibluekey`, `igoldkey`, `ipaper`, `iknife`, 
         `igreencube`, `iredcube`, `ibluecube`, `iyellowcube`, `iemptycube`, 
         `ideermouth`, `ihand`, //items
@@ -24,18 +24,22 @@ class Start {
     }
 
     preload() {
-        //preload all images
+        //preload all images by adding them to images array
         for(let img of this.imgNames) {
             images[img] = loadImage(`assets/images/${img}.png`);
             //thanks to Pippin for helping me with this!
         }
 
+        //load sounds
         bgm = loadSound('assets/sounds/satie.mp3');
+
+        //load fonts
         noto = loadFont('assets/fonts/NotoSerif.ttf');
         notoita = loadFont('assets/fonts/NotoSerif_Italic.ttf');
         lcd = loadFont('assets/fonts/pixellcd.ttf');
     }
 
+    //setup all arrow positions and add to array
     setupArrows() {
         let leftArrow = new Arrow(`left`, 50, height/2-35, images.arrowLeft);
         let rightArrow = new Arrow(`right`, width-50, height/2-35, images.arrowRight);
@@ -43,7 +47,7 @@ class Start {
         arrows.push(leftArrow, rightArrow, downArrow);
     }
     
-    //create all the scenes: their ID, their array of puzzle objects, 
+    //create all scenes: ID, array of puzzle objects, which scene they return to (if applicable)
     createScenes() {
         sc1 = new Scene(1, this.p[0], null); //room 1: door, cupboard, painting
         sc2 = new Scene(2, this.p[1], null); //room 2: statue, taxidermy
@@ -62,6 +66,8 @@ class Start {
     }
     
     //create every single thing that extends from class "Puzzle" for each respective scene
+    //then add all those items to that scene's array, which will be grabbed from array p
+    //usual puzzle constructor: name, x, y, w, h, shape, img + extras
     createPuzzles() {
         //room 1
         let sc1Array = [];
@@ -147,13 +153,12 @@ class Start {
         let deadbird = new PReveal('deadbird', width/2+102, height/2+60, 266, 243, 'rect', images.deadbird1, images.deadbird2);
         sc12Array.push(window2, deadbird);
 
+        //p array has all the respective arrays to call them in createScenes above
         this.p.push(sc1Array, sc2Array, sc3Array, sc4Array, sc5Array, sc6Array, sc7Array, sc8Array, sc9Array, sc10Array, sc11Array, sc12Array);
-        
-        //window1 219x368
-        //bird 174x115
     }
     
     //create the lock numbers for the safe
+    //constructor: target, x, y
     createLocks() {
         let lock1 = new Lock(3, width/2-135, height/2-26);
         let lock2 = new Lock(7, width/2-75, height/2-26);
@@ -164,11 +169,12 @@ class Start {
     
     //create player inventory
     createInventory() {
-        let slotX = 150;
+        let slotX = 150; //X of first slot starts at this position
+        let inventorySize = 5;
         for(let i = 0; i < inventorySize; i++) {
             let newSlot = new InventorySlot(slotX, height-44);
             inventory.push(newSlot);
-            slotX += 75;
+            slotX += 75; //add distance between each slot to x
         }
     }
 

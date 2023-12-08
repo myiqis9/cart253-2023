@@ -5,9 +5,9 @@ class PHand extends Puzzle {
         super('hand', x, y, w, h, shape, img);
 
         this.itemInteracted = false; //has hand been placed?
-        this.displayHand = false;
+        this.displayHand = false; //is hand displaying?
         
-        //these are all images that will be cached for the statue
+        //all images that will be cached for the statue animation
         this.blood1 = images.blood1;
         this.blood2 = images.blood2;
         this.blood3 = images.blood3;
@@ -22,10 +22,12 @@ class PHand extends Puzzle {
         }
     }
 
+    //blood pouring animation
     bloodpour() {
         counter++;
         print(counter);
 
+        //final counter adds the blood puzzle that player can react with and ends animation
         if(counter === 3) {
             let blood = new PBlood(289, height/2+28, 169, 369, 'rect', images.blood3);
             activeScene.puzzleArray.push(blood);
