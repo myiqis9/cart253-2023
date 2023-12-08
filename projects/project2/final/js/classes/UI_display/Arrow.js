@@ -50,7 +50,7 @@ class Arrow {
           case 3: drywet = 0.25;
           break;
         }
-        start.setSound(drywet);
+        audio.setSound(drywet);
     }
 
     display() {

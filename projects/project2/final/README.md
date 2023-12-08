@@ -12,7 +12,7 @@ All the art of the game was drawn by myself, and I ended up having much less tim
 
 Some major items that aren't color coded still stand out, notably the angel statue and deer taxidermy. The angel statue is a direct nod at the Weeping Angels from *Dr. Who*, while the deer taxidermy is a inspired from *Rusty Lake Hotel*. There's also the stuffed dead crow by the window. The imagery of taxidermy felt fitting for a game with the possible theme of being stuck in time, trapped in a cold room that feels almost like purgatory. I wanted to keep the possibility of the game branching off into a possible storyline.
 
-All sounds were taken from freesounds.org. Their crediting can be found in Start.js. Additionally, the background music used throughout my game is of the Gnossiennes (1 through 4) by Erik Satie. 
+All sounds were taken from freesounds.org. Their crediting can be found in AudioPlayer.js. Additionally, the background music used throughout my game is of the Gnossiennes (1 through 4) by Erik Satie. 
 
 #### User Experience
 Like all classic point & click games, I wanted to stay simple and keep user control mouse-only. There are arrows to indicate where you can move between rooms and players are mostly expected to click around everywhere until things happen.

@@ -30,9 +30,6 @@ class Start {
             //thanks to Pippin for helping me with this!
         }
 
-        //load sounds
-        bgm = loadSound('assets/sounds/satie.mp3');
-
         //load fonts
         noto = loadFont('assets/fonts/NotoSerif.ttf');
         notoita = loadFont('assets/fonts/NotoSerif_Italic.ttf');
@@ -176,31 +173,5 @@ class Start {
             inventory.push(newSlot);
             slotX += 75; //add distance between each slot to x
         }
-    }
-
-    //background music - reverbrating Gnossiennes by Erik Satie, with brown noise for radio static effect
-    createBGM() {
-        reverb = new p5.Reverb();
-        noise = new p5.Noise('brown');
-        
-        bgm.disconnect(); // so we'll only hear reverb...
-      
-        //connect soundFile to reverb, reverbTime, decayRate
-        reverb.process(bgm, 7, 20);
-        this.setSound(1);
-    }
-
-    //this sets how loud the background music is. to be used when switching from scene to scene
-    setSound(drywet) {
-        //strength of reverb (this is what will be modified!)
-        reverb.amp(1.4-drywet);
-        reverb.drywet(drywet);
-        noise.amp(0.042-(drywet/20));
-    }
-
-    //play bgm when game starts
-    playBGM() {
-        bgm.play();
-        noise.start();
     }
 }

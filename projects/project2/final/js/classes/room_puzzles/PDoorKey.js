@@ -49,7 +49,8 @@ class PDoorKey extends Puzzle {
         if(solved) {
             canClick = false;
             interval = setInterval(cutscene, 300);
-            stateManager.state = 'ending';
+            audio.sfx.door.play(); //door open sound
+            manager.state = 'ending';
         }
     }
 

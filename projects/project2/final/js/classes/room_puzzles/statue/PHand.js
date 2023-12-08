@@ -18,7 +18,8 @@ class PHand extends Puzzle {
             //start interval for the blood to pour
             canClick = false;
             this.displayHand = true;
-            interval = setInterval(this.bloodpour.bind(this), 1000)
+            audio.sfx.pour.play(); //play pour sound
+            interval = setInterval(this.bloodpour.bind(this), 1000);
         }
     }
 

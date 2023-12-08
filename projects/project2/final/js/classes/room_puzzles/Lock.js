@@ -27,6 +27,7 @@ class Lock {
     checkMousePressed() {
         this.direction = this.checkHover();
         if(this.direction !== null && canClick) {
+            audio.sfx.beep.play(); //play beep sound
             this.clicked();
             cooldown();
         }
@@ -57,7 +58,7 @@ class Lock {
         if(solved) {
             safe.open = true;
             safe.interact();
-            //play sound?
+            audio.sfx.unlock.play();
         }
     }
 

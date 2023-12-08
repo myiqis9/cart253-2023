@@ -1,6 +1,7 @@
 class GameState {
     constructor() {
         this.state = 'title';
+        this.alpha = 255; //for fade ins/outs
     }
 
     //check game state - this gets called in draw()
@@ -38,11 +39,11 @@ class GameState {
         this.displayGame();
 
         //set alpha
-        if(counter == 16) alpha = 200;
-        if(counter == 17) alpha = 125;
-        if(counter == 18) alpha = 65;
+        if(counter == 16) this.alpha = 200;
+        if(counter == 17) this.alpha = 125;
+        if(counter == 18) this.alpha = 65;
         if(counter == 19) {
-            alpha = 0;
+            this.alpha = 0;
             canClick = true;
             this.state = 'game';
             counter = 0;
@@ -51,7 +52,7 @@ class GameState {
     
         //display black background fade
         push();
-        fill(0, 0, 0, alpha);
+        fill(0, 0, 0, this.alpha);
         noStroke();
         rect(width/2, height/2, width, height);
         pop();
@@ -125,14 +126,14 @@ class GameState {
         this.displayGame();
 
         //set background alpha
-        if(counter == 1) alpha = 65;
-        if(counter == 2) alpha = 125;
-        if(counter == 3) alpha = 200;
-        if(counter == 4) alpha = 255;
+        if(counter == 1) this.alpha = 65;
+        if(counter == 2) this.alpha = 125;
+        if(counter == 3) this.alpha = 200;
+        if(counter == 4) this.alpha = 255;
     
         //display black background fade
         push();
-        fill(0, 0, 0, alpha);
+        fill(0, 0, 0, this.alpha);
         noStroke();
         rect(width/2, height/2, width, height);
         pop();

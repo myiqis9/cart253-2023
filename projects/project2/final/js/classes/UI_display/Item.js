@@ -9,6 +9,7 @@ class Item {
         this.size = 60;
     }
 
+    //remove from inventory
     interacted() {
         for(let slot of inventory) {
             if(slot.hasItem && slot.item.name === this.name) slot.empty();
@@ -26,14 +27,16 @@ class Item {
         return false;
     }
 
+    //checks distance between item and interacted target, and if interacted,
+    //removes this item from inventory then performs the interacted target's interact()
     checkInteraction() {
         for(let int of activeScene.puzzleArray) {
             let d = dist(int.x, int.y, this.x, this.y);
         
             if (d < int.size / 2 && this.interactsWith === int.name) {
                 int.itemInteracted = true;
-                int.interact();
                 this.interacted();
+                int.interact();
                 activeItem = null;
                 break;
             }

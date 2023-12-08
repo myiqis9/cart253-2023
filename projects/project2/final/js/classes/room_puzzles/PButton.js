@@ -18,6 +18,7 @@ class PButton extends Puzzle {
             this.switch();
             if(this.prev !== null) buttons[this.prev].switch();
             if(this.next !== null) buttons[this.next].switch();
+            audio.sfx.click.play(); //click sound
             this.checkAllActive();
         }
     }

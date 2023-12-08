@@ -13,7 +13,7 @@ class PDeerMouth extends Puzzle {
     interact() {
         if(this.itemInteracted && !this.hasMouth) {
             canClick = false;
-            //play sound?
+            audio.sfx.clang.play(); //clang sound
             this.timeout = setTimeout(() => {
                 let emptycube = new PItem('emptycube', width/2-23, height/2+16, 84, 41, 'rect', images.emptycube)
                 activeScene.puzzleArray.push(emptycube);
