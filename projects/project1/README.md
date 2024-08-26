@@ -1,3 +1,3 @@
-# Template p5 project
+# Fox Collector!
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+Feed the foxes! If they leave hungry, you will lose happiness points. Pet them once they're fed for extra points!
